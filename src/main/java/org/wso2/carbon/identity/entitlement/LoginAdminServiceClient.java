@@ -6,7 +6,8 @@ import org.wso2.carbon.authenticator.stub.AuthenticationAdminStub;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;  
 import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException;  
 import org.apache.axis2.context.ServiceContext;  
-import java.rmi.RemoteException;  
+import java.rmi.RemoteException;
+import java.util.Iterator;
   
 public class LoginAdminServiceClient {  
   private final String serviceName = "AuthenticationAdmin";  
@@ -27,7 +28,7 @@ public class LoginAdminServiceClient {
         System.out.println("Login Successful");  
   
         ServiceContext serviceContext = authenticationAdminStub.  
-            _getServiceClient().getLastOperationContext().getServiceContext();  
+            _getServiceClient().getLastOperationContext().getServiceContext();
         sessionCookie = (String) serviceContext.getProperty(HTTPConstants.COOKIE_STRING);  
         System.out.println(sessionCookie);  
       }  
