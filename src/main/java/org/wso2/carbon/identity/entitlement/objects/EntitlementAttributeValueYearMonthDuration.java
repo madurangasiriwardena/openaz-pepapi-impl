@@ -21,10 +21,10 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueYearMonthDurationImpl 
+public class EntitlementAttributeValueYearMonthDuration 
 	implements AzAttributeValueYearMonthDuration{
 	AzDataYearMonthDuration azYMD = null;
-	public AzAttributeValueYearMonthDurationImpl(
+	public EntitlementAttributeValueYearMonthDuration(
 			AzDataYearMonthDuration azYMD){
 		this.azYMD = azYMD;
 	}

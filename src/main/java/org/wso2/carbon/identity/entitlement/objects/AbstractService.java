@@ -21,7 +21,7 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.AzService;
 
 public abstract class AbstractService 
-	extends AzRequestContextFactoryImpl 
+	extends EntitlementRequestContextFactory 
 		implements AzService{
     
 }

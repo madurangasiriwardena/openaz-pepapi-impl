@@ -24,11 +24,11 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzAttributeValueIpAddressImpl 
-	extends AzAttributeValueImpl<AzDataTypeIdIpAddress, String> 
+public class EntitlementAttributeValueIpAddress 
+	extends EntitlementAttributeValue<AzDataTypeIdIpAddress, String> 
 	implements AzAttributeValueIpAddress {
 	String value;
-	public AzAttributeValueIpAddressImpl(String s){
+	public EntitlementAttributeValueIpAddress(String s){
 		super(AzDataTypeIdIpAddress.AZ_DATATYPE_ID_IPADDRESS, null);
 		this.value = s;
 		System.out.println(

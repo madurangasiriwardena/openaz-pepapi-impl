@@ -17,7 +17,7 @@
  */
 package org.wso2.carbon.identity.entitlement.objects;
 
-public class AzStatusMessagesImpl {
+public class EntitlementStatusMessages {
 	public static final String NO_RESOURCE_ACTION_ASSOCIATION =
 		"No azResourceActionAssociation was found in AzRequestContext.";
 	public static final String AZMSG_DENY = 

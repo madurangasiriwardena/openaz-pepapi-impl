@@ -19,11 +19,11 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueBooleanImpl
-	extends AzAttributeValueImpl<AzDataTypeIdBoolean, Boolean>
+public class EntitlementAttributeValueBoolean
+	extends EntitlementAttributeValue<AzDataTypeIdBoolean, Boolean>
 		implements AzAttributeValueBoolean {
 	Boolean b = false;
-	public AzAttributeValueBooleanImpl(Boolean b) {
+	public EntitlementAttributeValueBoolean(Boolean b) {
 		super(AzDataTypeIdBoolean.AZ_DATATYPE_ID_BOOLEAN, b);
 		this.b = b;
 		if (log.isTraceEnabled()) log.trace(

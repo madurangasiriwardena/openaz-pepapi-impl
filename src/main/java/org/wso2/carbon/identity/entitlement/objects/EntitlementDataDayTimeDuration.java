@@ -20,7 +20,7 @@ import org.openliberty.openaz.azapi.*;
 //import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzDataDayTimeDurationImpl 
+public class EntitlementDataDayTimeDuration 
 	implements AzDataDayTimeDuration{
 	boolean isNegativeDuration = false;
 	long days = 0;
@@ -28,7 +28,7 @@ public class AzDataDayTimeDurationImpl
 	long minutes = 0;
 	long seconds = 0;
 	int nanoSeconds = 0;
-public AzDataDayTimeDurationImpl(
+public EntitlementDataDayTimeDuration(
 			boolean isNegativeDuration,
 			long days,
 			long hours,

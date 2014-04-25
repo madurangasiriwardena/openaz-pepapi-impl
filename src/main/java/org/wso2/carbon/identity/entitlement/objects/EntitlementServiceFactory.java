@@ -26,12 +26,12 @@ import org.openliberty.openaz.azapi.AzService;
 import org.openliberty.openaz.pdp.resources.OpenAzResourceDirectory;
 import org.openliberty.openaz.pdp.resources.OpenAzTestResourceCollection;
 
-public class AzServiceFactory {
+public class EntitlementServiceFactory {
 	public static final String DEFAULT_PROVIDER_NAME = "AZ_SERVICE";
 
 	private static final  Map<String, AzService> providers =
 		new ConcurrentHashMap<String, AzService>();
-	static Log logStatic = LogFactory.getLog(AzServiceFactory.class);
+	static Log logStatic = LogFactory.getLog(EntitlementServiceFactory.class);
 
 	/*
 	 * This is a collection of test resources that can be

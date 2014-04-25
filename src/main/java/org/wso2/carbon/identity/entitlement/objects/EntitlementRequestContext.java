@@ -32,7 +32,7 @@ import org.openliberty.openaz.pdp.provider.AzEntityFactory;
 /**********************************************************************************
  * OpenAz reference impl for AzRequestContext.
  */
-public class AzRequestContextImpl implements AzRequestContext {
+public class EntitlementRequestContext implements AzRequestContext {
 	Log log = LogFactory.getLog(this.getClass()); 
 	
 	// Note: according to Practicalities.FAQ302C in
@@ -58,7 +58,7 @@ public class AzRequestContextImpl implements AzRequestContext {
 	static int idAzEntityCounter = 0;
 	static int idAzRequestContextCounter = 0;
 	
-	public AzRequestContextImpl(){
+	public EntitlementRequestContext(){
 		subjects = new HashSet<AzEntity<? extends AzCategoryId>>();
 		resources = new HashSet<AzEntity<? extends AzCategoryId>>();
 		actions = new HashSet<AzEntity<? extends AzCategoryId>>();
@@ -137,7 +137,7 @@ public class AzRequestContextImpl implements AzRequestContext {
 		if (log.isTraceEnabled()) log.trace(
 				"\n\tcreateNewAzEntity(" + t.getClass().getSimpleName() + ")");
 		AzEntity<T> azEntity = 
-			new AzEntityImpl<T>(t, idAzEntityCounter++);
+			new EntitlementEntity<T>(t, idAzEntityCounter++);
 		return azEntity;
 	}
 	
@@ -264,8 +264,8 @@ public class AzRequestContextImpl implements AzRequestContext {
 			AzEntity<AzCategoryIdAction> azAction){
 		resources.add(azResource);
 		actions.add(azAction);
-		AzResourceActionAssociationImpl testARAA =
-			new AzResourceActionAssociationImpl(
+		EntitlementResourceActionAssociation testARAA =
+			new EntitlementResourceActionAssociation(
 				azResource, azAction, idCounter++);
 		resourceActionAssociations.add(testARAA);
 		return testARAA;

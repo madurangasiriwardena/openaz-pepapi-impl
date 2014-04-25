@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzResourceActionAssociationImpl 
+public class EntitlementResourceActionAssociation 
 	implements AzResourceActionAssociation {
 	int localId = 0;
 	AzEntity<AzCategoryIdResource> azResource = null;
@@ -32,7 +32,7 @@ public class AzResourceActionAssociationImpl
 	AzResourceActionAssociationId azResourceActionAssociationId = null;
 	Log log = LogFactory.getLog(this.getClass()); 
 	
-	public AzResourceActionAssociationImpl(
+	public EntitlementResourceActionAssociation(
 			AzEntity<AzCategoryIdResource> azResource, 
 			AzEntity<AzCategoryIdAction> azAction, int localId){
 		this.azResource = azResource;
@@ -48,7 +48,7 @@ public class AzResourceActionAssociationImpl
 			"\n********************************************" + 
 	  		"*********************************************\n");
 		this.azResourceActionAssociationId = 
-			new AzResourceActionAssociationIdImpl(azResource, azAction);
+			new EntitlementResourceActionAssociationId(azResource, azAction);
 	}
 	public AzEntity<AzCategoryIdAction> getAzAction(){
 		return azAction;

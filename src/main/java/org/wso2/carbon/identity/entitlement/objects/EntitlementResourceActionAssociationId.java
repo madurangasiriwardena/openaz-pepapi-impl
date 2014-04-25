@@ -24,13 +24,13 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzResourceActionAssociationIdImpl 
+public class EntitlementResourceActionAssociationId 
 	implements AzResourceActionAssociationId {
 	String azResourceId = null;
 	String azActionId = null;
 	//public TestAzResourceActionAssociationId(
 	//		AzResource azResource, AzAction azAction){
-	public AzResourceActionAssociationIdImpl(
+	public EntitlementResourceActionAssociationId(
 			AzEntity<AzCategoryIdResource> azResource, 
 			AzEntity<AzCategoryIdAction> azAction){
 		//this.azResourceId = azResource.getId();

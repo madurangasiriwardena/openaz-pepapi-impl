@@ -25,12 +25,12 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzAttributeValueAnyURIImpl
-	extends AzAttributeValueImpl<AzDataTypeIdAnyURI, URI> 
+public class EntitlementAttributeValueAnyURI
+	extends EntitlementAttributeValue<AzDataTypeIdAnyURI, URI> 
 	implements AzAttributeValueAnyURI {
 	URI uri;
 	Log log = LogFactory.getLog(this.getClass()); 
-	public AzAttributeValueAnyURIImpl(URI uri){
+	public EntitlementAttributeValueAnyURI(URI uri){
 		super(AzDataTypeIdAnyURI.AZ_DATATYPE_ID_ANYURI, uri);
 		this.uri = uri;
 		if (log.isTraceEnabled()) log.trace(

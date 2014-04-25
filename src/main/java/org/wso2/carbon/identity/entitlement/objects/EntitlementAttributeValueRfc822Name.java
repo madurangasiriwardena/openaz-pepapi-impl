@@ -23,12 +23,12 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzAttributeValueRfc822NameImpl 
-	extends AzAttributeValueImpl<AzDataTypeIdRfc822Name, String> 
+public class EntitlementAttributeValueRfc822Name 
+	extends EntitlementAttributeValue<AzDataTypeIdRfc822Name, String> 
 	implements AzAttributeValueRfc822Name {
 	String value;
 	Log log = LogFactory.getLog(this.getClass()); 
-	public AzAttributeValueRfc822NameImpl(String s){
+	public EntitlementAttributeValueRfc822Name(String s){
 		super(AzDataTypeIdRfc822Name.AZ_DATATYPE_ID_RFC822NAME, null);
 		this.value = s;
 		if (log.isTraceEnabled()) log.trace(

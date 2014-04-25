@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openliberty.openaz.azapi.*;
 
-public class AzDataDateTimeImpl 
+public class EntitlementDataDateTime 
 	implements AzDataDateTime{
 	Date date = null;
 	int actualTimeZone = 0;
@@ -31,7 +31,7 @@ public class AzDataDateTimeImpl
 	int nanoSeconds = 0;
 	Log log = LogFactory.getLog(this.getClass()); 
 
-	public AzDataDateTimeImpl(
+	public EntitlementDataDateTime(
 				Date date,
 				int actualTimeZone,
 				int intendedTimeZone,
@@ -44,7 +44,7 @@ public class AzDataDateTimeImpl
 				"\n    Constructor creating new AzDataDateTime: " + 
 					"\n\t with date set to: " + this.date);
 		}
-	public AzDataDateTimeImpl(){
+	public EntitlementDataDateTime(){
 		this.date = new Date();
 	}
 	/**

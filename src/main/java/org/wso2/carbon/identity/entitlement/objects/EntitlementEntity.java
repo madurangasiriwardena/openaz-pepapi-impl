@@ -29,7 +29,7 @@ import javax.security.auth.x500.X500Principal;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzEntityImpl<T extends Enum<T> & AzCategoryId> 
+public class EntitlementEntity<T extends Enum<T> & AzCategoryId> 
 		implements AzEntity<T> {
 	
 	Log log = LogFactory.getLog(this.getClass());
@@ -50,7 +50,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	 * @param t the AzCategoryId for this AzEntity
 	 * @param idEntityCounter a provider-specific counter to aid tracing
 	 */
-	public AzEntityImpl(T t, int idEntityCounter) {
+	public EntitlementEntity(T t, int idEntityCounter) {
 		this.t = t;
 		this.idEntityCounter = idEntityCounter;
 		// create a String identifier that may be used to reference
@@ -185,7 +185,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public	AzAttributeValueAnyURI createAzAttributeValue(
 			AzDataTypeIdAnyURI u, URI v){
 		AzAttributeValueAnyURI azAttrValAnyURI = 
-			new AzAttributeValueAnyURIImpl(v);
+			new EntitlementAttributeValueAnyURI(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdAnyURI u, URI v) " +
 			"\n\treturning AzAttributeValueAnyURI");
@@ -195,7 +195,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueBase64Binary createAzAttributeValue(
 		AzDataTypeIdBase64Binary u, AzDataByteArray v){
 		AzAttributeValueBase64Binary azAttrValBase64Binary = 
-			new AzAttributeValueBase64BinaryImpl(v);
+			new EntitlementAttributeValueBase64Binary(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(" + 
 			"AzDataTypeIdBase64Binary u, AzDataByteArray v) " + 
@@ -206,7 +206,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueBoolean createAzAttributeValue(
 			AzDataTypeIdBoolean u, Boolean v){
 		AzAttributeValueBoolean azAttrValBoolean = 
-			new AzAttributeValueBooleanImpl(v);
+			new EntitlementAttributeValueBoolean(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdBoolean u, Boolean v) " +
 			"\n\t  azAttrValBoolean.getType() = " + azAttrValBoolean.getType() +
@@ -218,7 +218,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueDate createAzAttributeValue(
 		AzDataTypeIdDate u, AzDataDateTime v){
 		AzAttributeValueDate azAttrValDate = 
-			new AzAttributeValueDateImpl(v);
+			new EntitlementAttributeValueDate(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdDate u, AzDataDateTime v) " + 
 			"\n\treturning AzAttributeValueDate");
@@ -228,7 +228,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueDateTime createAzAttributeValue(
 		AzDataTypeIdDateTime u, AzDataDateTime v){
 		AzAttributeValueDateTime azAttrValDateTime = 
-			new AzAttributeValueDateTimeImpl(v);
+			new EntitlementAttributeValueDateTime(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" +
 			"\n\t%%%%%%%%%%%%%   using typesafe method   %%%%%%%%%%%%" +
@@ -243,7 +243,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueDayTimeDuration createAzAttributeValue(
 		AzDataTypeIdDayTimeDuration u, AzDataDayTimeDuration v){
 		AzAttributeValueDayTimeDuration azAttrValDayTimeDuration = 
-			new AzAttributeValueDayTimeDurationImpl(v);
+			new EntitlementAttributeValueDayTimeDuration(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(" + 
 			"AzDataTypeIdDayTimeDuration u, AzDataDayTimeDuration v) " + 
@@ -254,7 +254,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueDnsName createAzAttributeValue(
 		AzDataTypeIdDnsName u, String v){
 		AzAttributeValueDnsName azAttrValDnsName = 
-			new AzAttributeValueDnsNameImpl(v);
+			new EntitlementAttributeValueDnsName(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdDnsName u, String v) " + 
 			"\n\treturning AzAttributeValueDnsName");
@@ -264,7 +264,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueDouble createAzAttributeValue(
 		AzDataTypeIdDouble u, Double v){
 		AzAttributeValueDouble azAttrValDouble = 
-			new AzAttributeValueDoubleImpl(v);
+			new EntitlementAttributeValueDouble(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdDouble u, Double v) " + 
 			"\n\treturning AzAttributeValueDouble");
@@ -274,7 +274,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueHexBinary createAzAttributeValue(
 		AzDataTypeIdHexBinary u, AzDataByteArray v){
 		AzAttributeValueHexBinary azAttrValHexBinary = 
-			new AzAttributeValueHexBinaryImpl(v);
+			new EntitlementAttributeValueHexBinary(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(" + 
 			"AzDataTypeIdHexBinary u, AzDataByteArray v) " + 
@@ -285,7 +285,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueInteger createAzAttributeValue(
 		AzDataTypeIdInteger u, Long v){
 		AzAttributeValueInteger azAttrValInteger = 
-			new AzAttributeValueIntegerImpl(v);
+			new EntitlementAttributeValueInteger(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdInteger u, Long v) " + 
 			"\n\treturning AzAttributeValueInteger");
@@ -295,7 +295,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueIpAddress createAzAttributeValue(
 		AzDataTypeIdIpAddress u, String v){
 		AzAttributeValueIpAddress azAttrValIpAddress = 
-			new AzAttributeValueIpAddressImpl(v);
+			new EntitlementAttributeValueIpAddress(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdIpAddress u, String v) " + 
 			"\n\treturning AzAttributeValueIpAddress");
@@ -305,7 +305,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueRfc822Name createAzAttributeValue(
 		AzDataTypeIdRfc822Name u, String v){
 		AzAttributeValueRfc822Name azAttrValRfc822Name = 
-			new AzAttributeValueRfc822NameImpl(v);
+			new EntitlementAttributeValueRfc822Name(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdRfc822Name u, String v) " + 
 			"\n\treturning AzAttributeValueRfc822Name");
@@ -315,7 +315,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueString createAzAttributeValue(
 			AzDataTypeIdString u, String v){
 		AzAttributeValueString azAttrValString =
-			new AzAttributeValueStringImpl(v);
+			new EntitlementAttributeValueString(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" +
 			"\n\t%%%%%%%%%%%%%   using typesafe method   %%%%%%%%%%" +
@@ -330,7 +330,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueTime createAzAttributeValue(
 		AzDataTypeIdTime u, AzDataDateTime v){
 		AzAttributeValueTime azAttrValTime = 
-			new AzAttributeValueTimeImpl(v);
+			new EntitlementAttributeValueTime(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdTime u, AzDataDateTime v) " + 
 			"\n\treturning AzAttributeValueTime");
@@ -340,7 +340,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueX500Name createAzAttributeValue(
 		AzDataTypeIdX500Name u, X500Principal v){
 		AzAttributeValueX500Name azAttrValX500Name = 
-			new AzAttributeValueX500NameImpl(v);
+			new EntitlementAttributeValueX500Name(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(AzDataTypeIdX500Name u, X500Principal v) " + 
 			"\n\treturning AzAttributeValueX500Name");
@@ -350,7 +350,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 	public AzAttributeValueYearMonthDuration createAzAttributeValue(
 		AzDataTypeIdYearMonthDuration u, AzDataYearMonthDuration v){
 		AzAttributeValueYearMonthDuration azAttrValYearMonthDuration = 
-			new AzAttributeValueYearMonthDurationImpl(v);
+			new EntitlementAttributeValueYearMonthDuration(v);
 		if (log.isTraceEnabled()) log.trace(
 			"\n\t.createAzAttributeValue(" + 
 			"AzDataTypeIdYearMonthDuration u, AzDataYearMonthDuration v) " + 
@@ -398,7 +398,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 			&& (v instanceof AzDataYearMonthDuration) ) {
 				if (log.isTraceEnabled()) log.trace("Test 1");
 				AzAttributeValueYearMonthDuration azAttrValYearMonthDuration = 
-					new AzAttributeValueYearMonthDurationImpl(
+					new EntitlementAttributeValueYearMonthDuration(
 						(AzDataYearMonthDuration) v);
 				//@SuppressWarnings("unchecked")
 				//AzAttributeValue<U,V> azAttributeValueTemp = 
@@ -561,8 +561,8 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 			int nanoSeconds){
 		if (log.isTraceEnabled()) log.trace(
 			"\n   .createAzDataDateTime(" + date +")");
-		AzDataDateTimeImpl testAzDataDateTime = 
-			new AzDataDateTimeImpl(
+		EntitlementDataDateTime testAzDataDateTime = 
+			new EntitlementDataDateTime(
 					date, actualTimeZone, intendedTimeZone, nanoSeconds);
 		return testAzDataDateTime;
 	}
@@ -575,7 +575,7 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 			long minutes,
 			long seconds,
 			int nanoSeconds){
-		AzDataDayTimeDurationImpl testAzDataDayTimeDuration = null;
+		EntitlementDataDayTimeDuration testAzDataDayTimeDuration = null;
 		return testAzDataDayTimeDuration;
 	}
 	
@@ -584,14 +584,14 @@ public class AzEntityImpl<T extends Enum<T> & AzCategoryId>
 			boolean isNegativeDuration,
 			long years,
 			long months){
-		AzDataYearMonthDurationImpl testAzDataYearMonthDuration = null;
+		EntitlementDataYearMonthDuration testAzDataYearMonthDuration = null;
 		return testAzDataYearMonthDuration;
 	}
 	
 	public AzDataByteArray createAzDataByteArray(
 			byte[] byteArray){
-		AzDataByteArrayImpl azDataByteArray = 
-			new AzDataByteArrayImpl(byteArray);
+		EntitlementDataByteArray azDataByteArray = 
+			new EntitlementDataByteArray(byteArray);
 		return azDataByteArray;
 	}
 

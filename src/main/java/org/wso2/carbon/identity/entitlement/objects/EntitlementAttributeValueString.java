@@ -22,13 +22,13 @@ import org.apache.commons.logging.LogFactory;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueStringImpl
-		extends AzAttributeValueImpl<AzDataTypeIdString, String> 
+public class EntitlementAttributeValueString
+		extends EntitlementAttributeValue<AzDataTypeIdString, String> 
 		implements AzAttributeValueString {
 	String value;
 	Log log = LogFactory.getLog(this.getClass()); 
 	
-	public AzAttributeValueStringImpl(String s){
+	public EntitlementAttributeValueString(String s){
 		super(AzDataTypeIdString.AZ_DATATYPE_ID_STRING, s);
 		this.value = s;
 		if (log.isTraceEnabled()) log.trace(

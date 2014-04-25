@@ -24,12 +24,12 @@ import org.apache.commons.logging.LogFactory;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueX500NameImpl
-	extends AzAttributeValueImpl<AzDataTypeIdX500Name, X500Principal> 
+public class EntitlementAttributeValueX500Name
+	extends EntitlementAttributeValue<AzDataTypeIdX500Name, X500Principal> 
 	implements AzAttributeValueX500Name {
 	X500Principal x500Principal = null;
 	Log log = LogFactory.getLog(this.getClass()); 
-	public AzAttributeValueX500NameImpl(X500Principal p){
+	public EntitlementAttributeValueX500Name(X500Principal p){
 		super(AzDataTypeIdX500Name.AZ_DATATYPE_ID_X500NAME, p);
 		this.x500Principal = p;
 		if (log.isTraceEnabled()) log.trace(

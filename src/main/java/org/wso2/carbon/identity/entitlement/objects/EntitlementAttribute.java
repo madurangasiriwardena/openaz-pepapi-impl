@@ -43,10 +43,17 @@ public class EntitlementAttribute<T extends Enum<T> & AzCategoryId, U extends En
 	}
 
 	public T getAzCategoryId() {
-		return azCategoryId;
+		return null;
 	}
 
 	public void setAzCategoryId(T c) {
+	}
+	
+	public T getEntitlementCategoryId() {
+		return azCategoryId;
+	}
+
+	public void setEntitlementCategoryId(T c) {
 		this.azCategoryId = c;
 	}
 

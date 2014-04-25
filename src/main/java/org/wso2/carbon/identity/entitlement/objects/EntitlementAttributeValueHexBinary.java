@@ -21,10 +21,10 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueHexBinaryImpl 
+public class EntitlementAttributeValueHexBinary 
 	implements AzAttributeValueHexBinary{
 	AzDataByteArray byteArray = null;
-	public AzAttributeValueHexBinaryImpl(
+	public EntitlementAttributeValueHexBinary(
 			AzDataByteArray byteArray){
 		this.byteArray = byteArray;
 	}

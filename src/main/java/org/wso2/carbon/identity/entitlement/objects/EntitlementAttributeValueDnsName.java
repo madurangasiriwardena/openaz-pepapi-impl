@@ -23,11 +23,11 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueDnsNameImpl 
-	extends AzAttributeValueImpl<AzDataTypeIdDnsName,String> 
+public class EntitlementAttributeValueDnsName 
+	extends EntitlementAttributeValue<AzDataTypeIdDnsName,String> 
 	implements AzAttributeValueDnsName {
 	String value;
-	public AzAttributeValueDnsNameImpl(String s){
+	public EntitlementAttributeValueDnsName(String s){
 		super(AzDataTypeIdDnsName.AZ_DATATYPE_ID_DNSNAME, null);
 		this.value = s;
 		System.out.println(

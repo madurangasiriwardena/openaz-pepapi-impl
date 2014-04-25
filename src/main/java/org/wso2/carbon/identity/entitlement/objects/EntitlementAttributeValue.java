@@ -25,16 +25,16 @@ import org.openliberty.openaz.azapi.constants.*;
 
 //public abstract class 
 public  class 
-	AzAttributeValueImpl<U extends Enum<U> & AzDataTypeId, V> 
+	EntitlementAttributeValue<U extends Enum<U> & AzDataTypeId, V> 
 		implements AzAttributeValue<U,V> {
 	U type;
 	V value;
 	
 	Log log = LogFactory.getLog(this.getClass());
 
-	AzAttributeValueImpl(){}
+	EntitlementAttributeValue(){}
 	
-	public AzAttributeValueImpl(U type, V value){
+	public EntitlementAttributeValue(U type, V value){
 		this.type = type;
 		this.value = value;
 		if (log.isTraceEnabled()) log.trace(

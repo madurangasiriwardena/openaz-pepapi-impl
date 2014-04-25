@@ -20,12 +20,12 @@ import org.openliberty.openaz.azapi.*;
 //import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzDataYearMonthDurationImpl 
+public class EntitlementDataYearMonthDuration 
 	implements AzDataYearMonthDuration{
 	boolean isNegativeDuration = false;
 	long years = 0;
 	long months = 0;
-	public AzDataYearMonthDurationImpl(
+	public EntitlementDataYearMonthDuration(
 			boolean isNegativeDuration,
 			long years,
 			long months){

@@ -20,12 +20,12 @@ import org.openliberty.openaz.azapi.*;
 //import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzDataByteArrayImpl 
+public class EntitlementDataByteArray 
 	implements AzDataByteArray{
 	byte[] byteArray = null;
         
         
-	AzDataByteArrayImpl(byte[] byteArray){
+	EntitlementDataByteArray(byte[] byteArray){
 		this.byteArray = byteArray;
 	}
 

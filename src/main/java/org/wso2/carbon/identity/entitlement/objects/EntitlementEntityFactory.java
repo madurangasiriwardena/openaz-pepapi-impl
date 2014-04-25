@@ -32,7 +32,7 @@ import org.openliberty.openaz.azapi.constants.AzCategoryIdEnvironment;
  * @author Rich
  *
  */
-public class AzEntityFactory<T extends Enum<T> & AzCategoryId> {
+public class EntitlementEntityFactory<T extends Enum<T> & AzCategoryId> {
 	
 	static int idAzEntityCounter = 0;
 	public static final String DEFAULT_ENV_PROVIDER_NAME = "AZ_ENV_ENTITY";

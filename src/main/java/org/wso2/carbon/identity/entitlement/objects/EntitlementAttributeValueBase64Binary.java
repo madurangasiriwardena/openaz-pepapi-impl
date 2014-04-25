@@ -22,10 +22,10 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzAttributeValueBase64BinaryImpl 
+public class EntitlementAttributeValueBase64Binary 
 	implements AzAttributeValueBase64Binary{
 	AzDataByteArray byteArray = null;
-	public AzAttributeValueBase64BinaryImpl(
+	public EntitlementAttributeValueBase64Binary(
 			AzDataByteArray byteArray){
 		this.byteArray = byteArray;
 	}

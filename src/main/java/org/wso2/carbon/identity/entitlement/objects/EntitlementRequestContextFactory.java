@@ -19,13 +19,13 @@ package org.wso2.carbon.identity.entitlement.objects;
 
 import org.openliberty.openaz.azapi.*;
 
-public abstract class AzRequestContextFactoryImpl 
+public abstract class EntitlementRequestContextFactory 
 		implements AzRequestContextFactory {
 
-	public AzRequestContextFactoryImpl(){}
+	public EntitlementRequestContextFactory(){}
 
 	public AzRequestContext createAzRequestContext(){
-		AzRequestContext reqCtx = new AzRequestContextImpl();
+		AzRequestContext reqCtx = new EntitlementRequestContext();
 		return reqCtx;
 	}
 }

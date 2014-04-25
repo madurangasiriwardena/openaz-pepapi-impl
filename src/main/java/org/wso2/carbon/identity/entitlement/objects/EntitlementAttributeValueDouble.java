@@ -22,10 +22,10 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public final class AzAttributeValueDoubleImpl 
+public final class EntitlementAttributeValueDouble 
 	implements AzAttributeValueDouble{
 	Double d = null;
-	public AzAttributeValueDoubleImpl(
+	public EntitlementAttributeValueDouble(
 			Double d){
 		this.d = d;
 	}

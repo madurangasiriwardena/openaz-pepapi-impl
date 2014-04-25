@@ -21,11 +21,11 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueIntegerImpl 
-	extends AzAttributeValueImpl<AzDataTypeIdInteger, Long>
+public class EntitlementAttributeValueInteger 
+	extends EntitlementAttributeValue<AzDataTypeIdInteger, Long>
 		implements AzAttributeValueInteger {
 	Long i = null;
-	public AzAttributeValueIntegerImpl(Long i) {
+	public EntitlementAttributeValueInteger(Long i) {
 		super(AzDataTypeIdInteger.AZ_DATATYPE_ID_INTEGER, i);
 		this.i = i;
 		if (log.isTraceEnabled()) log.trace(

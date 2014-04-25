@@ -21,10 +21,10 @@ package org.wso2.carbon.identity.entitlement.objects;
 import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
-public class AzAttributeValueDayTimeDurationImpl 
+public class EntitlementAttributeValueDayTimeDuration 
 	implements AzAttributeValueDayTimeDuration{
 	AzDataDayTimeDuration azDTD = null;
-	public AzAttributeValueDayTimeDurationImpl(
+	public EntitlementAttributeValueDayTimeDuration(
 			AzDataDayTimeDuration azDTD){
 		this.azDTD = azDTD;
 	}

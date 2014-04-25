@@ -22,24 +22,24 @@ import org.openliberty.openaz.azapi.constants.*;
 
 import java.util.Date;
 
-public class AzAttributeValueDateImpl 
-	extends AzAttributeValueImpl<AzDataTypeIdDate, AzDataDateTime> 
+public class EntitlementAttributeValueDate 
+	extends EntitlementAttributeValue<AzDataTypeIdDate, AzDataDateTime> 
 	implements AzAttributeValueDate{
 	//private Date date;
 	private AzDataDateTime date;
 	//private int timeZone;
 	//private int defaultedTimeZone;
-	public AzAttributeValueDateImpl(){
+	public EntitlementAttributeValueDate(){
 		super(AzDataTypeIdDate.AZ_DATATYPE_ID_DATE, 
-				new AzDataDateTimeImpl());
+				new EntitlementDataDateTime());
 		this.date = super.getValue();
 	}
-	public AzAttributeValueDateImpl(
+	public EntitlementAttributeValueDate(
 			Date date, int timeZone, int defaultedTimeZone){
 		super(AzDataTypeIdDate.AZ_DATATYPE_ID_DATE, null);
-		this.date = new AzDataDateTimeImpl(date,timeZone,defaultedTimeZone,0);
+		this.date = new EntitlementDataDateTime(date,timeZone,defaultedTimeZone,0);
 	}
-	public AzAttributeValueDateImpl(AzDataDateTime date){
+	public EntitlementAttributeValueDate(AzDataDateTime date){
 		this.date = date;
 	}
 	public void setValue(Date date){

@@ -25,30 +25,30 @@ import org.openliberty.openaz.azapi.*;
 import org.openliberty.openaz.azapi.constants.*;
 
 
-public class AzAttributeValueDateTimeImpl
-		extends AzAttributeValueImpl<AzDataTypeIdDateTime, AzDataDateTime> 
+public class EntitlementAttributeValueDateTime
+		extends EntitlementAttributeValue<AzDataTypeIdDateTime, AzDataDateTime> 
 		implements AzAttributeValueDateTime {
 	private AzDataDateTime date;
 	Log log = LogFactory.getLog(this.getClass()); 
 	
-	public AzAttributeValueDateTimeImpl(){
+	public EntitlementAttributeValueDateTime(){
 		super(AzDataTypeIdDateTime.AZ_DATATYPE_ID_DATETIME, 
-				new AzDataDateTimeImpl());
+				new EntitlementDataDateTime());
 		this.date = super.getValue();
 		if (log.isTraceEnabled()) log.trace(
 			"    TestAzAttributeValueDateTime: " +
 			" Date Created = " + date.getDate());
 	}
 	
-	public AzAttributeValueDateTimeImpl(
+	public EntitlementAttributeValueDateTime(
 			Date date, int nanoseconds, 
 			int timeZone, int defaultedTimeZone){
 		super(AzDataTypeIdDateTime.AZ_DATATYPE_ID_DATETIME, 
-				new AzDataDateTimeImpl(
+				new EntitlementDataDateTime(
 					date,timeZone,defaultedTimeZone,nanoseconds));
 		this.date = super.getValue();
 	}
-	public AzAttributeValueDateTimeImpl(AzDataDateTime date){
+	public EntitlementAttributeValueDateTime(AzDataDateTime date){
 		super(AzDataTypeIdDateTime.AZ_DATATYPE_ID_DATETIME, date);
 		this.date = date;
 	}
