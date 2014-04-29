@@ -19,6 +19,7 @@ import org.openliberty.openaz.azapi.AzService;
 
 //import org.openliberty.openaz.pdp.AzServiceFactory;
 import org.openliberty.openaz.pdp.provider.AzServiceFactory;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementServiceFactory;
 /**
  * Provides a default implementation of the decide() method 
  * and has null implementations of preDecide() and postDecide().
@@ -45,7 +46,7 @@ public class DefaultDecisionHandler
     public PepResponse decide(PepRequest request) {
        
     	// Get handle to AzService
-        AzService azHandle = AzServiceFactory.getAzService();        
+        AzService azHandle = EntitlementServiceFactory.getAzService();        
         AzResponseContext azRspCtx = null;
         if (log.isTraceEnabled()) log.trace(
         	"\n   Calling decide w PepRequest.getOperation() = " + 

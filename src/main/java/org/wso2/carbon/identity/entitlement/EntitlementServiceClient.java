@@ -1,19 +1,26 @@
 package org.wso2.carbon.identity.entitlement;
 
 import java.rmi.RemoteException;
+import java.util.Set;
 
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openliberty.openaz.azapi.AzAttributeFinder;
+import org.openliberty.openaz.azapi.AzRequestContext;
+import org.openliberty.openaz.azapi.AzResourceActionAssociation;
+import org.openliberty.openaz.azapi.AzResponseContext;
+import org.openliberty.openaz.azapi.AzService;
+import org.openliberty.openaz.azapi.constants.AzCategoryId;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.identity.entitlement.stub.EntitlementServiceStub;
 import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
 
 import org.wso2.carbon.identity.entitlement.LoginAdminServiceClient;
 
-public class EntitlementServiceClient {
+public class EntitlementServiceClient implements AzService {
 	
 	private EntitlementServiceStub stub;
     private static final Log log = LogFactory.getLog(EntitlementServiceClient.class);
@@ -61,5 +68,37 @@ public class EntitlementServiceClient {
 		EntitlementServiceClient entitlementServiceClient = new EntitlementServiceClient(session, backEndUrl);
 		String decision = entitlementServiceClient.getDecision(request);
 		System.out.println(decision);
+	}
+
+	@Override
+	public AzRequestContext createAzRequestContext() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AzResponseContext decide(AzRequestContext arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Set<AzResourceActionAssociation> query(String arg0,
+			AzRequestContext arg1, boolean arg2) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AzResponseContext queryVerbose(String arg0, AzRequestContext arg1) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <T extends Enum<T> & AzCategoryId> void registerAzAttributeFinder(
+			AzAttributeFinder<T> arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

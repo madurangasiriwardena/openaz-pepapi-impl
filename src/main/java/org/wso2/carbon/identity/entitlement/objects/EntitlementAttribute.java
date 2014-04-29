@@ -30,8 +30,8 @@ public class EntitlementAttribute<T extends Enum<T> & AzCategoryId, U extends En
 	AzAttributeValue<U, V> attributeValue;
 	Log log = LogFactory.getLog(this.getClass());
 
-	public EntitlementAttribute(T azCategoryId, String issuer, String attributeId,
-			AzAttributeValue<U, V> attributeValue) {
+	public EntitlementAttribute(T azCategoryId, String issuer,
+			String attributeId, AzAttributeValue<U, V> attributeValue) {
 		this.azCategoryId = azCategoryId;
 		if (log.isTraceEnabled())
 			log.trace("\n    AzAttributeImpl: constructor: "
@@ -48,7 +48,7 @@ public class EntitlementAttribute<T extends Enum<T> & AzCategoryId, U extends En
 
 	public void setAzCategoryId(T c) {
 	}
-	
+
 	public T getEntitlementCategoryId() {
 		return azCategoryId;
 	}

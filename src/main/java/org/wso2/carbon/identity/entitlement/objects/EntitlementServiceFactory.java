@@ -23,62 +23,68 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openliberty.openaz.azapi.AzService;
-import org.openliberty.openaz.pdp.resources.OpenAzResourceDirectory;
-import org.openliberty.openaz.pdp.resources.OpenAzTestResourceCollection;
+import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
 
 public class EntitlementServiceFactory {
 	public static final String DEFAULT_PROVIDER_NAME = "AZ_SERVICE";
+	public static final String ENTITLEMENT_PROVIDER_NAME = "ENTITLEMENT_SERVICE";
 
-	private static final  Map<String, AzService> providers =
-		new ConcurrentHashMap<String, AzService>();
+	private static final Map<String, AzService> providers = new ConcurrentHashMap<String, AzService>();
 	static Log logStatic = LogFactory.getLog(EntitlementServiceFactory.class);
 
 	/*
-	 * This is a collection of test resources that can be
-	 * used by query operations. 
-	 * TODO: generalize this interface so the resource directory
+	 * This is a collection of test resources that can be used by query
+	 * operations. TODO: generalize this interface so the resource directory
 	 * providers can be registered.
-	 * 
 	 */
-	public static OpenAzResourceDirectory azResourceDirectory =
-		new OpenAzTestResourceCollection();
-	
+
 	public static AzService getAzService() {
-		//System.out.println("AzServiceFactory.getAzService: " +
-		//		"\n\t Creating instance of TestAzService-1.");
+		// System.out.println("AzServiceFactory.getAzService: " +
+		// "\n\t Creating instance of TestAzService-1.");
 		String name = DEFAULT_PROVIDER_NAME;
-		System.out.println(
-				"THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010" +
-				"\n\t replace ...pdp.AzServiceFactory w " +
-				"\n\t  with ... pdp.provider.AzServiceFactory");
-		logStatic.error(
-				"THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010" +
-				"\n\t replace ...pdp.AzServiceFactory w " +
-				"\n\t  with ... pdp.provider.AzServiceFactory");
-		if (logStatic.isTraceEnabled()) logStatic.trace(
-			"\n\topenaz.pdp.AzServiceFactory.getAzService: " +
-			"\n\t\tGetting instance, " + name + 
-			", of TestAzService from providers(" +
-			providers.size() + ").\n");
-		//return new TestAzService();
-        //        return null;
+		System.out.println("THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010"
+				+ "\n\t replace ...pdp.AzServiceFactory w "
+				+ "\n\t  with ... pdp.provider.AzServiceFactory");
+		logStatic.error("THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010"
+				+ "\n\t replace ...pdp.AzServiceFactory w "
+				+ "\n\t  with ... pdp.provider.AzServiceFactory");
+		if (logStatic.isTraceEnabled())
+			logStatic.trace("\n\topenaz.pdp.AzServiceFactory.getAzService: "
+					+ "\n\t\tGetting instance, " + name
+					+ ", of TestAzService from providers(" + providers.size()
+					+ ").\n");
+		// return new TestAzService();
+		// return null;
 		return providers.get(name);
 	}
-	public static void registerDefaultProvider(AzService azService){
-		System.out.println(
-				"THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010" +
-				"\n\t replace ...pdp.AzServiceFactory w " +
-				"\n\t  with ... pdp.provider.AzServiceFactory");
-		logStatic.error(
-				"THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010" +
-				"\n\t replace ...pdp.AzServiceFactory w " +
-				"\n\t  with ... pdp.provider.AzServiceFactory");
+	
+	public static AzService getEntitlementService() {
+		// System.out.println("AzServiceFactory.getAzService: " +
+		// "\n\t Creating instance of TestAzService-1.");
+		String name = ENTITLEMENT_PROVIDER_NAME;
+		
+		return providers.get(name);
+	}
+
+	public static void registerEntitlementServiceProvider(EntitlementServiceClient entitlementService) {
+		registerProvider(ENTITLEMENT_PROVIDER_NAME, entitlementService);
+	}
+	
+	public static void registerDefaultProvider(AzService azService) {
+		System.out.println("THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010"
+				+ "\n\t replace ...pdp.AzServiceFactory w "
+				+ "\n\t  with ... pdp.provider.AzServiceFactory");
+		logStatic.error("THIS MODULE SHOULD NO LONGER BE USED: 16-Sep-2010"
+				+ "\n\t replace ...pdp.AzServiceFactory w "
+				+ "\n\t  with ... pdp.provider.AzServiceFactory");
 		registerProvider(DEFAULT_PROVIDER_NAME, azService);
 	}
-	public static void registerProvider(String name, AzService azService){
-		providers.put(name,azService);
-		if (logStatic.isTraceEnabled()) logStatic.trace(
-			"\n\topenaz.pdp.AzServiceFactory.registerProvider(" +
-			"\n\t\t" + name + ", " + azService.getClass().getName() + ")\n");
+
+	public static void registerProvider(String name, AzService azService) {
+		providers.put(name, azService);
+		if (logStatic.isTraceEnabled())
+			logStatic.trace("\n\topenaz.pdp.AzServiceFactory.registerProvider("
+					+ "\n\t\t" + name + ", " + azService.getClass().getName()
+					+ ")\n");
 	}
 }
