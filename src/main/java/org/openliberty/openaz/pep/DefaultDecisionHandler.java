@@ -18,7 +18,7 @@ import org.openliberty.openaz.azapi.AzResponseContext;
 import org.openliberty.openaz.azapi.AzService;
 
 //import org.openliberty.openaz.pdp.AzServiceFactory;
-import org.openliberty.openaz.pdp.provider.AzServiceFactory;
+//import org.openliberty.openaz.pdp.provider.AzServiceFactory;
 import org.wso2.carbon.identity.entitlement.objects.EntitlementServiceFactory;
 /**
  * Provides a default implementation of the decide() method 

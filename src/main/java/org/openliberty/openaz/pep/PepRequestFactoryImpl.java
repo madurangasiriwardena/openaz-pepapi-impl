@@ -554,7 +554,7 @@ public class PepRequestFactoryImpl implements PepRequestFactory {
 	protected PepRequest newPEPRequest(PepRequestOperation operation) {
 
 		// Use AzApi AzService to create an AzRequestContext:
-		AzService azHandle = EntitlementServiceFactory.getAzService();
+		AzService azHandle = EntitlementServiceFactory.getEntitlementService();
 		AzRequestContext azReqCtx = azHandle.createAzRequestContext(); // [a07]
 
 		// Create a basic PepRequestImpl that can be further populated

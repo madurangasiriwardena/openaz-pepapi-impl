@@ -29,7 +29,7 @@ public class EntitlementResourceActionAssociation
 	int localId = 0;
 	AzEntity<AzCategoryIdResource> azResource = null;
 	AzEntity<AzCategoryIdAction> azAction = null;
-	AzResourceActionAssociationId azResourceActionAssociationId = null;
+	EntitlementResourceActionAssociationId entitlementResourceActionAssociationId = null;
 	Log log = LogFactory.getLog(this.getClass()); 
 	
 	public EntitlementResourceActionAssociation(
@@ -47,21 +47,33 @@ public class EntitlementResourceActionAssociation
 			"\n\t azRaa localId:  " + localId +
 			"\n********************************************" + 
 	  		"*********************************************\n");
-		this.azResourceActionAssociationId = 
+		this.entitlementResourceActionAssociationId = 
 			new EntitlementResourceActionAssociationId(azResource, azAction);
 	}
 	public AzEntity<AzCategoryIdAction> getAzAction(){
-		return azAction;
+		return null;
 	}
 	public AzEntity<AzCategoryIdResource> getAzResource(){
-		return azResource;
+		return null;
 	}
 	public AzResourceActionAssociationId getAzResourceActionAssociationId(){
-		return azResourceActionAssociationId;
+		return null;
 	}
 	public boolean equals(AzResourceActionAssociation azResourceActionAssociation){
-		if (azResourceActionAssociation.getAzResource().equals(this.azResource) &&
-			azResourceActionAssociation.getAzAction().equals(this.azAction))
+			return false;
+	}
+	public AzEntity<AzCategoryIdAction> getEntitlementAction(){
+		return azAction;
+	}
+	public AzEntity<AzCategoryIdResource> getEntitlementResource(){
+		return azResource;
+	}
+	public AzResourceActionAssociationId getEntitlementResourceActionAssociationId(){
+		return entitlementResourceActionAssociationId;
+	}
+	public boolean equals(EntitlementResourceActionAssociation entitlementResourceActionAssociation){
+		if (entitlementResourceActionAssociation.getEntitlementResource().equals(this.azResource) &&
+				entitlementResourceActionAssociation.getEntitlementAction().equals(this.azAction))
 			return true;
 		else
 			return false;
