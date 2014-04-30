@@ -57,7 +57,7 @@ public class DefaultDecisionHandler
 			e.printStackTrace();
 		}
     	
-    	AzService azHandle = EntitlementServiceFactory.getAzService();
+    	AzService azHandle = EntitlementServiceFactory.getEntitlementService();
     	AzResponseContext azRspCtx = azHandle.decide(request.getAzRequestContext());
     	return request.getPepRequestFactory().getResponseFactory().
         		createPepResponse(azRspCtx,

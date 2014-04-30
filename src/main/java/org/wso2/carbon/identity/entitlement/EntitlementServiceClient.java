@@ -26,7 +26,7 @@ public class EntitlementServiceClient implements AzService {
 	
 	private EntitlementServiceStub stub;
     private static final Log log = LogFactory.getLog(EntitlementServiceClient.class);
-    public static String backEndUrl = "https://localhost:9443";
+    public static String backEndUrl = "https://localhost:9443/services/";
     static LoginAdminServiceClient login;
 	
 	public EntitlementServiceClient(String cookie, String backendServerURL) throws AxisFault {
@@ -39,13 +39,16 @@ public class EntitlementServiceClient implements AzService {
     }
 	
 	public String getDecision(String request) throws AxisFault {
+		System.out.println(request);
         try {
             if(request != null){
                 request = request.trim().replaceAll("&lt;", "<"); //TODO should be properly fixed
                 request = request.trim().replaceAll("&gt;", ">");                 
             }
+            System.out.println(request);
             return stub.getDecision(request);
         } catch (Exception e) {
+        	e.printStackTrace();
             handleException("Error occurred while policy evaluation", e);
         }
         return null;
