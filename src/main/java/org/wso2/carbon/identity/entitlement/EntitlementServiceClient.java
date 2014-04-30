@@ -15,6 +15,8 @@ import org.openliberty.openaz.azapi.AzResponseContext;
 import org.openliberty.openaz.azapi.AzService;
 import org.openliberty.openaz.azapi.constants.AzCategoryId;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
+import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementRequestContext;
 import org.wso2.carbon.identity.entitlement.stub.EntitlementServiceStub;
 import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
 
@@ -24,6 +26,8 @@ public class EntitlementServiceClient implements AzService {
 	
 	private EntitlementServiceStub stub;
     private static final Log log = LogFactory.getLog(EntitlementServiceClient.class);
+    public static String backEndUrl = "https://localhost:9443";
+    static LoginAdminServiceClient login;
 	
 	public EntitlementServiceClient(String cookie, String backendServerURL) throws AxisFault {
         String serviceURL = backendServerURL + "EntitlementService";
@@ -52,22 +56,21 @@ public class EntitlementServiceClient implements AzService {
         throw new AxisFault(msg);
     }
 	
-	public static void main(String args[]) throws RemoteException, LoginAuthenticationExceptionException{
+	public static String getSession() throws RemoteException, LoginAuthenticationExceptionException{
 		System.setProperty(
 				"javax.net.ssl.trustStore",
 				"/home/maduranga/WSO2/IS/21-04-2014/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
 		System.setProperty("javax.net.ssl.t" + "rustStoreType", "JKS");
-		String backEndUrl = "https://localhost:9443";
 		
-		LoginAdminServiceClient login = new LoginAdminServiceClient(backEndUrl);
+		login = new LoginAdminServiceClient(EntitlementServiceClient.backEndUrl);
 		String session = login.authenticate("admin", "admin");
 		
-		String request = "<Request xmlns=\"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17\" CombinedDecision=\"false\" ReturnPolicyIdList=\"false\"><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:action\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:action:action-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">read</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:1.0:subject-category:access-subject\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:subject:subject-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">bob</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:resource\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:resource:resource-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">https://localhost:9443/services/EntitlementService</AttributeValue></Attribute></Attributes></Request>";
-		
-		EntitlementServiceClient entitlementServiceClient = new EntitlementServiceClient(session, backEndUrl);
-		String decision = entitlementServiceClient.getDecision(request);
-		System.out.println(decision);
+		return session;
+	}
+	
+	public static void logout() throws RemoteException, LogoutAuthenticationExceptionException{
+		login.logOut();
 	}
 
 	@Override
@@ -100,5 +103,10 @@ public class EntitlementServiceClient implements AzService {
 			AzAttributeFinder<T> arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public AzRequestContext createEntitlementRequestContext() {
+		AzRequestContext reqCtx = new EntitlementRequestContext();
+		return reqCtx;
 	}
 }

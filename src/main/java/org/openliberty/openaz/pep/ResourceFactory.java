@@ -4,6 +4,7 @@ import org.openliberty.openaz.azapi.AzEntity;
 import org.openliberty.openaz.azapi.AzRequestContext;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
+import org.openliberty.openaz.azapi.pep.PepException;
 import org.openliberty.openaz.azapi.pep.PepRequest;
 
 /**
@@ -24,7 +25,7 @@ public class ResourceFactory
 
     public Resource createObject(PepRequest pepRequestContext) {
         
-        AzRequestContext ctx = pepRequestContext.getAzRequestContext();
+        AzRequestContext ctx = ((PepRequestImpl)pepRequestContext).getEntitlementRequestContext();
         // Get a Resource Category and AzEntity
         AzEntity<AzCategoryIdResource> azResource = 
         	ctx.createAzEntity(AzCategoryIdResource.AZ_CATEGORY_ID_RESOURCE); 

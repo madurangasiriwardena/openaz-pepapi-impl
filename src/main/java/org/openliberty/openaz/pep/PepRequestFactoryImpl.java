@@ -35,6 +35,7 @@ import org.openliberty.openaz.azapi.AzResult;
 import org.openliberty.openaz.azapi.AzService;
 import org.openliberty.openaz.azapi.constants.AzCategoryId;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdObligation;
+import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
 import org.wso2.carbon.identity.entitlement.objects.EntitlementServiceFactory;
 
 
@@ -555,7 +556,7 @@ public class PepRequestFactoryImpl implements PepRequestFactory {
 
 		// Use AzApi AzService to create an AzRequestContext:
 		AzService azHandle = EntitlementServiceFactory.getEntitlementService();
-		AzRequestContext azReqCtx = azHandle.createAzRequestContext(); // [a07]
+		AzRequestContext azReqCtx = ((EntitlementServiceClient)azHandle).createEntitlementRequestContext(); // [a07]
 
 		// Create a basic PepRequestImpl that can be further populated
 		// on return to the caller

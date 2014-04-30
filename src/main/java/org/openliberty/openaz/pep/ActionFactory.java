@@ -19,7 +19,7 @@ public class ActionFactory
 
     public Action createObject(PepRequest pepRequestContext) {
         
-        AzRequestContext ctx = pepRequestContext.getAzRequestContext();
+        AzRequestContext ctx = ((PepRequestImpl)pepRequestContext).getEntitlementRequestContext();
         // Get a Resource Category and AzEntity
         AzEntity<AzCategoryIdAction> azAction = 
         	ctx.createAzEntity(AzCategoryIdAction.AZ_CATEGORY_ID_ACTION); // [a31]

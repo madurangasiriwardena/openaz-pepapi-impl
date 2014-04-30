@@ -5,6 +5,7 @@ import org.openliberty.openaz.azapi.AzRequestContext;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
 import org.openliberty.openaz.azapi.pep.PepRequest;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementRequestContext;
 
 /**
  * SubjectFactory creates an instance of 
@@ -27,7 +28,7 @@ public class SubjectFactory
 
     public Subject createObject(PepRequest pepRequestContext) {
         
-        AzRequestContext ctx = pepRequestContext.getAzRequestContext();
+        AzRequestContext ctx = ((PepRequestImpl)pepRequestContext).getEntitlementRequestContext();
         
         AzCategoryIdSubjectAccess azSubjCat = 
                 AzCategoryIdSubjectAccess.AZ_CATEGORY_ID_SUBJECT_ACCESS;

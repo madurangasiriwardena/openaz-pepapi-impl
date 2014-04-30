@@ -128,6 +128,10 @@ public class PepRequestImpl implements PepRequest {
         return null;
     }
     
+    public AzRequestContext getEntitlementRequestContext() {
+    	return this.azRequestContext;
+    }
+    
     /**
      * This method is used to translate a PepApi input subject object
      * to the corresponding individual AzApi AzAttributes for a Xacml
