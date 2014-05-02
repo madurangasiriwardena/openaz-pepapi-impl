@@ -166,9 +166,11 @@ public class EntitlementRequestContext implements AzRequestContext {
 		if (t.equals(AzCategoryIdAction.AZ_CATEGORY_ID_ACTION)) {
 			// azEntitySetT = (Set<AzEntity<T>>) actions;
 			azEntitySetT = actions;
-		} else if (t.equals(AzCategoryIdResource.AZ_CATEGORY_ID_RESOURCE))
+		} else if (t.equals(AzCategoryIdResource.AZ_CATEGORY_ID_RESOURCE)){
 			azEntitySetT = resources;
-		return azEntitySetT;
+		}else if (t.equals(AzCategoryIdSubjectAccess.AZ_CATEGORY_ID_SUBJECT_ACCESS)){
+			azEntitySetT = subjects;
+		}return azEntitySetT;
 	}
 
 	public <T extends Enum<T> & AzCategoryId> AzEntity<T> getAzEntity(T t) {

@@ -39,13 +39,11 @@ public class EntitlementServiceClient implements AzService {
     }
 	
 	public String getDecision(String request) throws AxisFault {
-		System.out.println(request);
         try {
             if(request != null){
                 request = request.trim().replaceAll("&lt;", "<"); //TODO should be properly fixed
                 request = request.trim().replaceAll("&gt;", ">");                 
             }
-            System.out.println(request);
             return stub.getDecision(request);
         } catch (Exception e) {
         	e.printStackTrace();
