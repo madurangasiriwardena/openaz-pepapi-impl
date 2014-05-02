@@ -1,6 +1,7 @@
 package org.wso2.carbon.identity.entitlement;
 
 import java.rmi.RemoteException;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.apache.axis2.AxisFault;
@@ -9,13 +10,22 @@ import org.apache.axis2.client.ServiceClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openliberty.openaz.azapi.AzAttributeFinder;
+import org.openliberty.openaz.azapi.AzEntity;
 import org.openliberty.openaz.azapi.AzRequestContext;
 import org.openliberty.openaz.azapi.AzResourceActionAssociation;
 import org.openliberty.openaz.azapi.AzResponseContext;
+import org.openliberty.openaz.azapi.AzResult;
 import org.openliberty.openaz.azapi.AzService;
 import org.openliberty.openaz.azapi.constants.AzCategoryId;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
+import org.openliberty.openaz.azapi.constants.AzDataTypeId;
+import org.openliberty.openaz.azapi.pep.PepRequest;
+import org.openliberty.openaz.pep.PepRequestImpl;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementAttribute;
 import org.wso2.carbon.identity.entitlement.objects.EntitlementRequestContext;
 import org.wso2.carbon.identity.entitlement.stub.EntitlementServiceStub;
 import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
@@ -81,8 +91,21 @@ public class EntitlementServiceClient implements AzService {
 	}
 
 	@Override
-	public AzResponseContext decide(AzRequestContext arg0) {
-		// TODO Auto-generated method stub
+	public AzResponseContext decide(AzRequestContext arg0) {		
+		String requestStr1 = "<Request xmlns=\"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17\" CombinedDecision=\"false\" ReturnPolicyIdList=\"false\"><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:action\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:action:action-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">read</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:1.0:subject-category:access-subject\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:subject:subject-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">bob</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:resource\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:resource:resource-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">https://localhost:9443/services/EntitlementService</AttributeValue></Attribute></Attributes></Request>";
+    	
+    	String requestStr = createRequestString(arg0);
+    	System.out.println(requestStr1);
+    	System.out.println(requestStr);
+    	
+    	//AzResponseContext azResponseContext = AzRe
+		try {
+			String decision = getDecision(requestStr);
+			System.out.println(decision);
+		} catch (AxisFault e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 
@@ -110,4 +133,77 @@ public class EntitlementServiceClient implements AzService {
 		AzRequestContext reqCtx = new EntitlementRequestContext();
 		return reqCtx;
 	}
+	
+	private String createRequestString(AzRequestContext azRequestContext){
+    	String request = "<Request xmlns=\"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17\" CombinedDecision=\"false\" ReturnPolicyIdList=\"false\">";
+
+    	//AzRequestContext azRequestContext = ((PepRequestImpl)pepRequest).getEntitlementRequestContext();
+    	
+    	Set<AzEntity<? extends AzCategoryId>> setAction = azRequestContext.getAzEntitySet(AzCategoryIdAction.AZ_CATEGORY_ID_ACTION);
+    	Iterator<AzEntity<? extends AzCategoryId>> iterAction = setAction.iterator();
+    	while (iterAction.hasNext()) {
+    		AzEntity<? extends AzCategoryId> azEntity = iterAction.next();
+    		System.out.println(azEntity.getAzCategoryId());
+    		Set<?> azActionAttributeSet = azEntity.getAzAttributeSet();
+    		Iterator<?> iterActionAttributes = azActionAttributeSet.iterator();
+    		while (iterActionAttributes.hasNext()) {
+    			EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute = (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterActionAttributes.next();
+    			System.out.println(attribute.getAzAttributeValue());
+    			System.out.println(attribute.getAttributeId());
+    			
+    			request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
+    			request += "<Attribute AttributeId=\"" + attribute.getAttributeId() + "\" IncludeInResult=\"false\">";
+    			request += "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" + attribute.getAzAttributeValue() + "</AttributeValue>";
+    			request += "</Attribute>";
+    			request += "</Attributes>";
+    		}
+    	} 
+    	
+    	System.out.println();
+    	
+    	Set<AzEntity<? extends AzCategoryId>> setSubject = azRequestContext.getAzEntitySet(AzCategoryIdSubjectAccess.AZ_CATEGORY_ID_SUBJECT_ACCESS);
+    	Iterator<AzEntity<? extends AzCategoryId>> iterSubject = setSubject.iterator();
+    	while (iterSubject.hasNext()) {
+    		AzEntity<? extends AzCategoryId> azEntity = iterSubject.next();
+    		System.out.println(azEntity.getAzCategoryId());
+    		Set<?> azAttributeSet = azEntity.getAzAttributeSet();
+    		Iterator<?> iterSubjectAttributes = azAttributeSet.iterator();
+    		while (iterSubjectAttributes.hasNext()) {
+    			EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute = (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterSubjectAttributes.next();
+    			System.out.println(attribute.getAzAttributeValue());
+    			System.out.println(attribute.getAttributeId());
+    			
+    			request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
+    			request += "<Attribute AttributeId=\"" + attribute.getAttributeId() + "\" IncludeInResult=\"false\">";
+    			request += "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" + attribute.getAzAttributeValue() + "</AttributeValue>";
+    			request += "</Attribute>";
+    			request += "</Attributes>";
+    		}
+    	}
+    	System.out.println();
+    	
+    	Set<AzEntity<? extends AzCategoryId>> setResource = azRequestContext.getAzEntitySet(AzCategoryIdResource.AZ_CATEGORY_ID_RESOURCE);
+    	Iterator<AzEntity<? extends AzCategoryId>> iterResource = setResource.iterator();
+    	while (iterResource.hasNext()) {
+    		AzEntity<? extends AzCategoryId> azEntity = iterResource.next();
+    		System.out.println(azEntity.getAzCategoryId());
+    		Set<?> azResourceAttributeSet = azEntity.getAzAttributeSet();
+    		Iterator<?> iterResourceAttributes = azResourceAttributeSet.iterator();
+    		while (iterResourceAttributes.hasNext()) {
+    			EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute = (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterResourceAttributes.next();
+    			System.out.println(attribute.getAzAttributeValue());
+    			System.out.println(attribute.getAttributeId());
+    			
+    			request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
+    			request += "<Attribute AttributeId=\"" + attribute.getAttributeId() + "\" IncludeInResult=\"false\">";
+    			request += "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" + attribute.getAzAttributeValue() + "</AttributeValue>";
+    			request += "</Attribute>";
+    			request += "</Attributes>";
+    		}
+    	}
+    	
+    	request += "</Request>";
+    	
+    	return request;
+    }
 }
