@@ -4,6 +4,10 @@ import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.xml.stream.XMLStreamException;
+
+import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
@@ -21,6 +25,7 @@ import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
 import org.openliberty.openaz.azapi.constants.AzDataTypeId;
+import org.openliberty.openaz.azapi.constants.AzDecision;
 import org.openliberty.openaz.azapi.pep.PepRequest;
 import org.openliberty.openaz.pep.PepRequestImpl;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
@@ -92,21 +97,45 @@ public class EntitlementServiceClient implements AzService {
 
 	@Override
 	public AzResponseContext decide(AzRequestContext arg0) {		
-		String requestStr1 = "<Request xmlns=\"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17\" CombinedDecision=\"false\" ReturnPolicyIdList=\"false\"><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:action\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:action:action-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">read</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:1.0:subject-category:access-subject\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:subject:subject-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">bob</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:resource\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:resource:resource-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">https://localhost:9443/services/EntitlementService</AttributeValue></Attribute></Attributes></Request>";
+		//String requestStr1 = "<Request xmlns=\"urn:oasis:names:tc:xacml:3.0:core:schema:wd-17\" CombinedDecision=\"false\" ReturnPolicyIdList=\"false\"><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:action\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:action:action-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">read</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:1.0:subject-category:access-subject\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:subject:subject-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">bob</AttributeValue></Attribute></Attributes><Attributes Category=\"urn:oasis:names:tc:xacml:3.0:attribute-category:resource\"><Attribute AttributeId=\"urn:oasis:names:tc:xacml:1.0:resource:resource-id\" IncludeInResult=\"false\"><AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">https://localhost:9443/services/EntitlementService</AttributeValue></Attribute></Attributes></Request>";
     	
     	String requestStr = createRequestString(arg0);
-    	System.out.println(requestStr1);
-    	System.out.println(requestStr);
+    	AzResult azResult = new EntitlementResultImpl();
     	
     	//AzResponseContext azResponseContext = AzRe
 		try {
 			String decision = getDecision(requestStr);
+			System.out.println(requestStr);
 			System.out.println(decision);
+			
+			OMElement documentElement = AXIOMUtil.stringToOM(decision);
+			String decisionStr = documentElement.getFirstElement().getFirstElement().getText();
+			
+			if(decisionStr.equalsIgnoreCase("Permit")){
+				((EntitlementResultImpl)azResult).setAzDecision(AzDecision.AZ_PERMIT);
+			}else if(decisionStr.equalsIgnoreCase("Deny")){
+				((EntitlementResultImpl)azResult).setAzDecision(AzDecision.AZ_DENY);
+			}else if(decisionStr.equalsIgnoreCase("Indeterminate")){
+				((EntitlementResultImpl)azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
+			}else if(decisionStr.equalsIgnoreCase("NotApplicable")){
+				((EntitlementResultImpl)azResult).setAzDecision(AzDecision.AZ_NOTAPPLICABLE);
+			}
+			
+		    System.out.println();
+			
 		} catch (AxisFault e) {
 			e.printStackTrace();
+			((EntitlementResultImpl)azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
+		} catch (XMLStreamException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			((EntitlementResultImpl)azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
 		}
 		
-		return null;
+		AzResponseContext azResponseContext = new EntitlementResponseContextImpl();
+		((EntitlementResponseContextImpl)azResponseContext).addResult(azResult);
+		
+		return azResponseContext;
 	}
 
 	@Override
