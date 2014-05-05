@@ -26,6 +26,12 @@ public class TestClient {
 			
 			PepResponse response = request.decide();
 			System.out.println(response.allowed());
+			
+			PepRequest request2 = pepRequestFactory.newPepRequest("alice", "read", "https://localhost:9443/services/EntitlementService");
+			
+			PepResponse response2 = request2.decide();
+			System.out.println(response2.allowed());
+			
 			EntitlementServiceClient.logout();
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
