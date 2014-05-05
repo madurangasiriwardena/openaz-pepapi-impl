@@ -1,6 +1,7 @@
 package org.wso2.carbon.identity.entitlement;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -15,7 +16,9 @@ import org.apache.axis2.client.Options;
 import org.apache.axis2.client.ServiceClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openliberty.openaz.azapi.AzAttribute;
 import org.openliberty.openaz.azapi.AzAttributeFinder;
+import org.openliberty.openaz.azapi.AzAttributeValueString;
 import org.openliberty.openaz.azapi.AzEntity;
 import org.openliberty.openaz.azapi.AzRequestContext;
 import org.openliberty.openaz.azapi.AzResourceActionAssociation;
@@ -24,20 +27,29 @@ import org.openliberty.openaz.azapi.AzResult;
 import org.openliberty.openaz.azapi.AzService;
 import org.openliberty.openaz.azapi.constants.AzCategoryId;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdObligation;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
 import org.openliberty.openaz.azapi.constants.AzDataTypeId;
+import org.openliberty.openaz.azapi.constants.AzDataTypeIdString;
 import org.openliberty.openaz.azapi.constants.AzDecision;
 import org.openliberty.openaz.azapi.constants.AzStatusCode;
+import org.openliberty.openaz.azapi.pep.Obligation;
 import org.openliberty.openaz.azapi.pep.PepRequest;
+import org.openliberty.openaz.azapi.pep.PepResponse;
+import org.openliberty.openaz.pep.ObligationFactoryImpl;
 import org.openliberty.openaz.pep.PepRequestImpl;
+import org.openliberty.openaz.pep.PepResponseFactoryImpl;
+import org.openliberty.openaz.pep.PepResponseImpl;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException;
 import org.wso2.carbon.identity.entitlement.objects.EntitlementAttribute;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementAttributeValue;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementAttributeValueString;
+import org.wso2.carbon.identity.entitlement.objects.EntitlementEntityFactory;
 import org.wso2.carbon.identity.entitlement.objects.EntitlementRequestContext;
 import org.wso2.carbon.identity.entitlement.stub.EntitlementServiceStub;
 import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
-
 import org.wso2.carbon.identity.entitlement.LoginAdminServiceClient;
 
 public class EntitlementServiceClient implements AzService {
@@ -60,8 +72,8 @@ public class EntitlementServiceClient implements AzService {
 		try {
 			if (request != null) {
 				request = request.trim().replaceAll("&lt;", "<"); // TODO should
-																  // be properly
-																  // fixed
+				                                                  // be properly
+				                                                  // fixed
 				request = request.trim().replaceAll("&gt;", ">");
 			}
 			return stub.getDecision(request);
@@ -79,7 +91,7 @@ public class EntitlementServiceClient implements AzService {
 
 	public static String getSession() throws RemoteException, LoginAuthenticationExceptionException {
 		System.setProperty("javax.net.ssl.trustStore",
-		                   "/home/maduranga/WSO2/IS/22-04-2014/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
+		                   "/home/gilgamesh/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
 		System.setProperty("javax.net.ssl.t" + "rustStoreType", "JKS");
 
@@ -111,11 +123,57 @@ public class EntitlementServiceClient implements AzService {
 		try {
 			String decision = getDecision(requestStr);
 			// System.out.println(requestStr);
-			// System.out.println(decision);
+			System.out.println(decision);
 
 			OMElement documentElement = AXIOMUtil.stringToOM(decision);
-			String decisionStr = documentElement.getFirstElement().getFirstElement().getText();
+			String decisionStr =
+			                     documentElement.getFirstChildWithName(new QName(
+			                                                                     documentElement.getNamespace()
+			                                                                                    .getNamespaceURI(),
+			                                                                     "Result"))
+			                                    .getFirstChildWithName(new QName(
+			                                                                     documentElement.getNamespace()
+			                                                                                    .getNamespaceURI(),
+			                                                                     "Decision"))
+			                                    .getText();
 
+			try {
+				OMElement Obligations =
+				                        documentElement.getFirstChildWithName(new QName(
+				                                                                        documentElement.getNamespace()
+				                                                                                       .getNamespaceURI(),
+				                                                                        "Result"))
+				                                       .getFirstChildWithName(new QName(
+				                                                                        documentElement.getNamespace()
+				                                                                                       .getNamespaceURI(),
+
+				                                                                        "Obligations"));
+
+				System.out.println(Obligations.getLocalName());
+				Iterator ObligationList = Obligations.getChildrenWithLocalName("Obligation");
+
+				ArrayList<Obligation> obs= new ArrayList<Obligation>();
+				while (ObligationList.hasNext()) {
+					AzEntity<AzCategoryIdObligation> tempObligation =
+					                                                  arg0.createNewAzEntity(AzCategoryIdObligation.AZ_CATEGORY_ID_OBLIGATION);// new
+					OMElement child= (OMElement)ObligationList.next();
+					String s= child.getFirstElement().getText();
+					System.out.println("aaaaaaaaaaaaaaaaa"+s);
+					// AzEntity<AzCategoryId.>;
+					//AzDataTypeIdString d= new 
+					EntitlementAttribute<AzCategoryIdObligation, AzDataTypeIdString, String> attr = (EntitlementAttribute<AzCategoryIdObligation, AzDataTypeIdString, String>) tempObligation.createAzAttribute("ENTITLEMENT_SERVICE", "urn:oasis:names:tc:xacml:3.0:example:attribute:text", new EntitlementAttributeValueString(s));
+					
+					tempObligation.addAzAttribute(attr);//still not working
+					
+					Obligation obligationEntity =
+					                              new ObligationFactoryImpl().createObject(tempObligation);
+					
+				
+				}
+			} catch (NullPointerException ne) {
+				System.out.println("No Obligations Found");
+			}
+			System.out.println(decisionStr);
 			if (decisionStr.equalsIgnoreCase("Permit")) {
 				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_PERMIT);
 			} else if (decisionStr.equalsIgnoreCase("Deny")) {
@@ -127,24 +185,26 @@ public class EntitlementServiceClient implements AzService {
 			} else {
 				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
 			}
-			
+
 			OMNode status = documentElement.getFirstElement().getFirstElement().getNextOMSibling();
-			String statusCode = ((OMElement)status).getFirstElement().getAttributeValue(new QName("Value"));
-			
-			if(statusCode.contains("status:missing-attribute")){
-				((EntitlementResultImpl)azResult).setAzStatusCode(AzStatusCode.AZ_MISSING_ATTRIBUTE);
-			}else if(statusCode.contains("status:ok")){
-				((EntitlementResultImpl)azResult).setAzStatusCode(AzStatusCode.AZ_OK);
-			}else if(statusCode.contains("status:syntax-error")){
-				((EntitlementResultImpl)azResult).setAzStatusCode(AzStatusCode.AZ_SYNTAX_ERROR);
+			String statusCode =
+			                    ((OMElement) status).getFirstElement()
+			                                        .getAttributeValue(new QName("Value"));
+
+			if (statusCode.contains("status:missing-attribute")) {
+				((EntitlementResultImpl) azResult).setAzStatusCode(AzStatusCode.AZ_MISSING_ATTRIBUTE);
+			} else if (statusCode.contains("status:ok")) {
+				((EntitlementResultImpl) azResult).setAzStatusCode(AzStatusCode.AZ_OK);
+			} else if (statusCode.contains("status:syntax-error")) {
+				((EntitlementResultImpl) azResult).setAzStatusCode(AzStatusCode.AZ_SYNTAX_ERROR);
 			}
-			
-			try{
-				status = ((OMElement)status).getFirstElement().getNextOMSibling();
-				String statusMessage = ((OMElement)status).getText();
-				((EntitlementResultImpl)azResult).setStatusMessage(statusMessage);
-			}catch(Exception e){
-				
+
+			try {
+				status = ((OMElement) status).getFirstElement().getNextOMSibling();
+				String statusMessage = ((OMElement) status).getText();
+				((EntitlementResultImpl) azResult).setStatusMessage(statusMessage);
+			} catch (Exception e) {
+
 			}
 
 		} catch (AxisFault e) {
