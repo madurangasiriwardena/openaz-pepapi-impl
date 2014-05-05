@@ -105,8 +105,8 @@ public class EntitlementServiceClient implements AzService {
     	//AzResponseContext azResponseContext = AzRe
 		try {
 			String decision = getDecision(requestStr);
-			System.out.println(requestStr);
-			System.out.println(decision);
+			//System.out.println(requestStr);
+			//System.out.println(decision);
 			
 			OMElement documentElement = AXIOMUtil.stringToOM(decision);
 			String decisionStr = documentElement.getFirstElement().getFirstElement().getText();
@@ -172,13 +172,13 @@ public class EntitlementServiceClient implements AzService {
     	Iterator<AzEntity<? extends AzCategoryId>> iterAction = setAction.iterator();
     	while (iterAction.hasNext()) {
     		AzEntity<? extends AzCategoryId> azEntity = iterAction.next();
-    		System.out.println(azEntity.getAzCategoryId());
+    		//System.out.println(azEntity.getAzCategoryId());
     		Set<?> azActionAttributeSet = azEntity.getAzAttributeSet();
     		Iterator<?> iterActionAttributes = azActionAttributeSet.iterator();
     		while (iterActionAttributes.hasNext()) {
     			EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute = (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterActionAttributes.next();
-    			System.out.println(attribute.getAzAttributeValue());
-    			System.out.println(attribute.getAttributeId());
+    			//System.out.println(attribute.getAzAttributeValue());
+    			//System.out.println(attribute.getAttributeId());
     			
     			request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
     			request += "<Attribute AttributeId=\"" + attribute.getAttributeId() + "\" IncludeInResult=\"false\">";
@@ -188,19 +188,17 @@ public class EntitlementServiceClient implements AzService {
     		}
     	} 
     	
-    	System.out.println();
-    	
     	Set<AzEntity<? extends AzCategoryId>> setSubject = azRequestContext.getAzEntitySet(AzCategoryIdSubjectAccess.AZ_CATEGORY_ID_SUBJECT_ACCESS);
     	Iterator<AzEntity<? extends AzCategoryId>> iterSubject = setSubject.iterator();
     	while (iterSubject.hasNext()) {
     		AzEntity<? extends AzCategoryId> azEntity = iterSubject.next();
-    		System.out.println(azEntity.getAzCategoryId());
+    		//System.out.println(azEntity.getAzCategoryId());
     		Set<?> azAttributeSet = azEntity.getAzAttributeSet();
     		Iterator<?> iterSubjectAttributes = azAttributeSet.iterator();
     		while (iterSubjectAttributes.hasNext()) {
     			EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute = (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterSubjectAttributes.next();
-    			System.out.println(attribute.getAzAttributeValue());
-    			System.out.println(attribute.getAttributeId());
+    			//System.out.println(attribute.getAzAttributeValue());
+    			//System.out.println(attribute.getAttributeId());
     			
     			request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
     			request += "<Attribute AttributeId=\"" + attribute.getAttributeId() + "\" IncludeInResult=\"false\">";
@@ -209,19 +207,18 @@ public class EntitlementServiceClient implements AzService {
     			request += "</Attributes>";
     		}
     	}
-    	System.out.println();
     	
     	Set<AzEntity<? extends AzCategoryId>> setResource = azRequestContext.getAzEntitySet(AzCategoryIdResource.AZ_CATEGORY_ID_RESOURCE);
     	Iterator<AzEntity<? extends AzCategoryId>> iterResource = setResource.iterator();
     	while (iterResource.hasNext()) {
     		AzEntity<? extends AzCategoryId> azEntity = iterResource.next();
-    		System.out.println(azEntity.getAzCategoryId());
+    		//System.out.println(azEntity.getAzCategoryId());
     		Set<?> azResourceAttributeSet = azEntity.getAzAttributeSet();
     		Iterator<?> iterResourceAttributes = azResourceAttributeSet.iterator();
     		while (iterResourceAttributes.hasNext()) {
     			EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute = (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterResourceAttributes.next();
-    			System.out.println(attribute.getAzAttributeValue());
-    			System.out.println(attribute.getAttributeId());
+    			//System.out.println(attribute.getAzAttributeValue());
+    			//System.out.println(attribute.getAttributeId());
     			
     			request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
     			request += "<Attribute AttributeId=\"" + attribute.getAttributeId() + "\" IncludeInResult=\"false\">";
