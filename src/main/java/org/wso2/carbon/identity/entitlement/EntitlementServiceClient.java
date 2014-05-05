@@ -4,9 +4,11 @@ import java.rmi.RemoteException;
 import java.util.Iterator;
 import java.util.Set;
 
+import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.axiom.om.OMElement;
+import org.apache.axiom.om.OMNode;
 import org.apache.axiom.om.util.AXIOMUtil;
 import org.apache.axis2.AxisFault;
 import org.apache.axis2.client.Options;
@@ -26,6 +28,7 @@ import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
 import org.openliberty.openaz.azapi.constants.AzDataTypeId;
 import org.openliberty.openaz.azapi.constants.AzDecision;
+import org.openliberty.openaz.azapi.constants.AzStatusCode;
 import org.openliberty.openaz.azapi.pep.PepRequest;
 import org.openliberty.openaz.pep.PepRequestImpl;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
@@ -76,7 +79,7 @@ public class EntitlementServiceClient implements AzService {
 
 	public static String getSession() throws RemoteException, LoginAuthenticationExceptionException {
 		System.setProperty("javax.net.ssl.trustStore",
-		                   "/home/gilgamesh/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
+		                   "/home/maduranga/WSO2/IS/22-04-2014/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
 		System.setProperty("javax.net.ssl.t" + "rustStoreType", "JKS");
 
@@ -123,6 +126,25 @@ public class EntitlementServiceClient implements AzService {
 				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_NOTAPPLICABLE);
 			} else {
 				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
+			}
+			
+			OMNode status = documentElement.getFirstElement().getFirstElement().getNextOMSibling();
+			String statusCode = ((OMElement)status).getFirstElement().getAttributeValue(new QName("Value"));
+			
+			if(statusCode.contains("status:missing-attribute")){
+				((EntitlementResultImpl)azResult).setAzStatusCode(AzStatusCode.AZ_MISSING_ATTRIBUTE);
+			}else if(statusCode.contains("status:ok")){
+				((EntitlementResultImpl)azResult).setAzStatusCode(AzStatusCode.AZ_OK);
+			}else if(statusCode.contains("status:syntax-error")){
+				((EntitlementResultImpl)azResult).setAzStatusCode(AzStatusCode.AZ_SYNTAX_ERROR);
+			}
+			
+			try{
+				status = ((OMElement)status).getFirstElement().getNextOMSibling();
+				String statusMessage = ((OMElement)status).getText();
+				((EntitlementResultImpl)azResult).setStatusMessage(statusMessage);
+			}catch(Exception e){
+				
 			}
 
 		} catch (AxisFault e) {
