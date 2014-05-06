@@ -20,6 +20,7 @@ import org.openliberty.openaz.azapi.AzAttribute;
 import org.openliberty.openaz.azapi.AzAttributeFinder;
 import org.openliberty.openaz.azapi.AzAttributeValueString;
 import org.openliberty.openaz.azapi.AzEntity;
+import org.openliberty.openaz.azapi.AzObligations;
 import org.openliberty.openaz.azapi.AzRequestContext;
 import org.openliberty.openaz.azapi.AzResourceActionAssociation;
 import org.openliberty.openaz.azapi.AzResponseContext;
@@ -91,7 +92,7 @@ public class EntitlementServiceClient implements AzService {
 
 	public static String getSession() throws RemoteException, LoginAuthenticationExceptionException {
 		System.setProperty("javax.net.ssl.trustStore",
-		                   "/home/gilgamesh/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
+		                   "/home/maduranga/WSO2/IS/22-04-2014/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
 		System.setProperty("javax.net.ssl.t" + "rustStoreType", "JKS");
 
@@ -136,6 +137,19 @@ public class EntitlementServiceClient implements AzService {
 			                                                                                    .getNamespaceURI(),
 			                                                                     "Decision"))
 			                                    .getText();
+			
+			System.out.println(decisionStr);
+			if (decisionStr.equalsIgnoreCase("Permit")) {
+				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_PERMIT);
+			} else if (decisionStr.equalsIgnoreCase("Deny")) {
+				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_DENY);
+			} else if (decisionStr.equalsIgnoreCase("Indeterminate")) {
+				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
+			} else if (decisionStr.equalsIgnoreCase("NotApplicable")) {
+				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_NOTAPPLICABLE);
+			} else {
+				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
+			}
 
 			try {
 				OMElement Obligations =
@@ -152,38 +166,33 @@ public class EntitlementServiceClient implements AzService {
 				System.out.println(Obligations.getLocalName());
 				Iterator ObligationList = Obligations.getChildrenWithLocalName("Obligation");
 
+				AzObligations azObligations = new EntitlementObligationsImpl();
+				
 				ArrayList<Obligation> obs= new ArrayList<Obligation>();
 				while (ObligationList.hasNext()) {
 					AzEntity<AzCategoryIdObligation> tempObligation =
 					                                                  arg0.createNewAzEntity(AzCategoryIdObligation.AZ_CATEGORY_ID_OBLIGATION);// new
 					OMElement child= (OMElement)ObligationList.next();
 					String s= child.getFirstElement().getText();
-					System.out.println("aaaaaaaaaaaaaaaaa"+s);
+					//System.out.println("aaaaaaaaaaaaaaaaa"+s);
 					// AzEntity<AzCategoryId.>;
 					//AzDataTypeIdString d= new 
 					EntitlementAttribute<AzCategoryIdObligation, AzDataTypeIdString, String> attr = (EntitlementAttribute<AzCategoryIdObligation, AzDataTypeIdString, String>) tempObligation.createAzAttribute("ENTITLEMENT_SERVICE", "urn:oasis:names:tc:xacml:3.0:example:attribute:text", new EntitlementAttributeValueString(s));
 					
-					tempObligation.addAzAttribute(attr);//still not working
+					//tempObligation.addAzAttribute(attr);//still not working
 					
-					Obligation obligationEntity =
-					                              new ObligationFactoryImpl().createObject(tempObligation);
+//					Obligation obligationEntity =
+//					                              new ObligationFactoryImpl().createObject(tempObligation);
 					
+					
+					azObligations.addAzObligation(tempObligation);
 				
 				}
+				
+				((EntitlementResultImpl) azResult).setAzObligations(azObligations);
+				
 			} catch (NullPointerException ne) {
 				System.out.println("No Obligations Found");
-			}
-			System.out.println(decisionStr);
-			if (decisionStr.equalsIgnoreCase("Permit")) {
-				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_PERMIT);
-			} else if (decisionStr.equalsIgnoreCase("Deny")) {
-				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_DENY);
-			} else if (decisionStr.equalsIgnoreCase("Indeterminate")) {
-				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
-			} else if (decisionStr.equalsIgnoreCase("NotApplicable")) {
-				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_NOTAPPLICABLE);
-			} else {
-				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_INDETERMINATE);
 			}
 
 			OMNode status = documentElement.getFirstElement().getFirstElement().getNextOMSibling();
