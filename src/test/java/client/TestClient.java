@@ -26,44 +26,60 @@ public class TestClient {
 	public static void main(String args[]) {
 		String session;
 		AzService entitlementService;
+		
+		String backEndUrl = "https://localhost:9443/services/";
+		
+		String data[][] = new String[2][3];
+		data[0][0] = "bob";
+		data[0][1] = "read";
+		data[0][2] = "https://localhost:9443/services/EntitlementService";
+		
+		data[1][0] = "alice";
+		data[1][1] = "read";
+		data[1][2] = "https://localhost:9443/services/EntitlementService";
+		
+		
 		try {
-			session = EntitlementServiceClient.getSession();
-			entitlementService =
-			                     new EntitlementServiceClient(session,
-			                                                  EntitlementServiceClient.backEndUrl);
-			PepRequestFactory pepRequestFactory =
-			                                      new PepRequestFactoryImpl("ENTITLEMENT_SERVICE",
-			                                                                entitlementService);
+			session = EntitlementServiceClient.getSession("admin", "admin", backEndUrl);
+			entitlementService = new EntitlementServiceClient(session, backEndUrl);
+			PepRequestFactory pepRequestFactory = new PepRequestFactoryImpl("ENTITLEMENT_SERVICE", entitlementService);
 
-			PepRequest request =
-			                     pepRequestFactory.newPepRequest("bob", "read",
-			                                                     "https://localhost:9443/services/EntitlementService");
+			for(int i=0; i<data.length; i++){
+				PepRequest request = pepRequestFactory.newPepRequest(data[i][0], data[i][1], data[i][2]);
 
-			PepResponse response = request.decide();
-			System.out.println(response.allowed());
-			Map<String, Obligation> obligations = response.getObligations();
-			for (String entry : obligations.keySet()) {
-				AzEntity<AzCategoryIdObligation> temp = obligations.get(entry).getAzEntity();
+				PepResponse response = request.decide();
+				System.out.println(">>>>" + data[i][0] + " is trying to " + data[i][1] + " resource " + data[i][2] + "<<<<");
 				
-				Set<AzAttribute<?>> mixedset = temp.getAzAttributeMixedSet();
-
-				Iterator<AzAttribute<?>> itr = mixedset.iterator();
-				while (itr.hasNext()) {
-					System.out.println(itr.next().getAzAttributeValue());
+				if(response.allowed()){
+					System.out.println(data[i][0] + " has the " + data[i][1] + " permission.");
+				}else{
+					System.out.println(data[i][0] + " does not have the " + data[i][1] + " permission.");
 				}
+				
+				Map<String, Obligation> obligations = response.getObligations();
+				
+				if(!obligations.isEmpty()){
+					System.out.println("Obligations>>");
+				}
+				
+				for (String entry : obligations.keySet()) {
+					AzEntity<AzCategoryIdObligation> temp = obligations.get(entry)
+							.getAzEntity();
 
+					Set<AzAttribute<?>> mixedset = temp.getAzAttributeMixedSet();
+
+					Iterator<AzAttribute<?>> itr = mixedset.iterator();
+					while (itr.hasNext()) {
+						AzAttribute<?> attr = itr.next();
+						System.out.print(attr.getAttributeId() + " : ");
+						System.out.println(attr.getAzAttributeValue().toString().trim());
+						
+					}
+
+				}
+				System.out.println();
 			}
 
-			System.out.println();
-
-			System.out.println();
-
-			PepRequest request2 =
-			                      pepRequestFactory.newPepRequest("alice", "read",
-			                                                      "https://localhost:9443/services/EntitlementService");
-
-			PepResponse response2 = request2.decide();
-			System.out.println(response2.allowed());
 
 			EntitlementServiceClient.logout();
 		} catch (AxisFault e) {

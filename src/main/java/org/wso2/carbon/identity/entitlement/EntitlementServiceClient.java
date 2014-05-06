@@ -57,7 +57,7 @@ public class EntitlementServiceClient implements AzService {
 
 	private EntitlementServiceStub stub;
 	private static final Log log = LogFactory.getLog(EntitlementServiceClient.class);
-	public static String backEndUrl = "https://localhost:9443/services/";
+	//public static String backEndUrl = "https://localhost:9443/services/";
 	static LoginAdminServiceClient login;
 
 	public EntitlementServiceClient(String cookie, String backendServerURL) throws AxisFault {
@@ -90,14 +90,14 @@ public class EntitlementServiceClient implements AzService {
 		throw new AxisFault(msg);
 	}
 
-	public static String getSession() throws RemoteException, LoginAuthenticationExceptionException {
+	public static String getSession(String username, String password, String backEndUrl) throws RemoteException, LoginAuthenticationExceptionException {
 		System.setProperty("javax.net.ssl.trustStore",
 		                   "/home/maduranga/WSO2/IS/22-04-2014/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
 		System.setProperty("javax.net.ssl.t" + "rustStoreType", "JKS");
 
-		login = new LoginAdminServiceClient(EntitlementServiceClient.backEndUrl);
-		String session = login.authenticate("admin", "admin");
+		login = new LoginAdminServiceClient(backEndUrl);
+		String session = login.authenticate(username, password);
 
 		return session;
 	}
@@ -137,7 +137,6 @@ public class EntitlementServiceClient implements AzService {
 			                                                                     "Decision"))
 			                                    .getText();
 
-			System.out.println(decisionStr);
 			if (decisionStr.equalsIgnoreCase("Permit")) {
 				((EntitlementResultImpl) azResult).setAzDecision(AzDecision.AZ_PERMIT);
 			} else if (decisionStr.equalsIgnoreCase("Deny")) {

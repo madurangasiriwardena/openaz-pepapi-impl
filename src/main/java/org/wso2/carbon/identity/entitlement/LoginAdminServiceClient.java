@@ -24,20 +24,17 @@ public class LoginAdminServiceClient {
   
       String sessionCookie = null;  
   
-      if (authenticationAdminStub.login(userName, password, "localhost")) {  
-        System.out.println("Login Successful");  
+      if (authenticationAdminStub.login(userName, password, "localhost")) { 
   
         ServiceContext serviceContext = authenticationAdminStub.  
             _getServiceClient().getLastOperationContext().getServiceContext();
-        sessionCookie = (String) serviceContext.getProperty(HTTPConstants.COOKIE_STRING);  
-        System.out.println(sessionCookie);  
+        sessionCookie = (String) serviceContext.getProperty(HTTPConstants.COOKIE_STRING); 
       }  
   
       return sessionCookie;  
     }  
   
     public void logOut() throws RemoteException, LogoutAuthenticationExceptionException {  
-      authenticationAdminStub.logout();  
-      System.out.println("Logout");
+      authenticationAdminStub.logout(); 
     }  
 } 
