@@ -92,7 +92,7 @@ public class EntitlementServiceClient implements AzService {
 
 	public static String getSession() throws RemoteException, LoginAuthenticationExceptionException {
 		System.setProperty("javax.net.ssl.trustStore",
-		                   "/home/gilgamesh/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
+		                   "/home/maduranga/WSO2/IS/22-04-2014/wso2is-5.0.0/repository/resources/security/wso2carbon.jks");
 		System.setProperty("javax.net.ssl.trustStorePassword", "wso2carbon");
 		System.setProperty("javax.net.ssl.t" + "rustStoreType", "JKS");
 
