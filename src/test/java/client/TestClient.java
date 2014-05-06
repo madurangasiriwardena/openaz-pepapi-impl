@@ -4,7 +4,6 @@ import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
-
 import java.util.Iterator;
 
 import org.apache.axis2.AxisFault;
@@ -16,10 +15,10 @@ import org.openliberty.openaz.azapi.pep.Obligation;
 import org.openliberty.openaz.azapi.pep.PepRequest;
 import org.openliberty.openaz.azapi.pep.PepRequestFactory;
 import org.openliberty.openaz.azapi.pep.PepResponse;
-import org.openliberty.openaz.pep.PepRequestFactoryImpl;
 import org.wso2.carbon.authenticator.stub.LoginAuthenticationExceptionException;
 import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException;
-import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
+import org.wso2.openaz.pep.PepRequestFactoryImpl;
+import org.wso2.openaz.pep.entitlement.provider.EntitlementServiceClient;
 
 public class TestClient {
 
@@ -71,8 +70,8 @@ public class TestClient {
 					Iterator<AzAttribute<?>> itr = mixedset.iterator();
 					while (itr.hasNext()) {
 						AzAttribute<?> attr = itr.next();
-						System.out.print(attr.getAttributeId() + " : ");
-						System.out.println(attr.getAzAttributeValue().toString().trim());
+						System.out.print("change attribute \""+attr.getAttributeId() + "\" to \"");
+						System.out.println(attr.getAzAttributeValue().toString().trim()+"\"");
 						
 					}
 
