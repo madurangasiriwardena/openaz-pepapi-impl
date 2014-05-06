@@ -22,46 +22,49 @@ import org.wso2.carbon.authenticator.stub.LogoutAuthenticationExceptionException
 import org.wso2.carbon.identity.entitlement.EntitlementServiceClient;
 
 public class TestClient {
-	
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		String session;
 		AzService entitlementService;
 		try {
 			session = EntitlementServiceClient.getSession();
-			entitlementService = new EntitlementServiceClient(session, EntitlementServiceClient.backEndUrl);
-			PepRequestFactory pepRequestFactory = new PepRequestFactoryImpl("ENTITLEMENT_SERVICE", entitlementService);
-			
-			PepRequest request = pepRequestFactory.newPepRequest("bob", "read", "https://localhost:9443/services/EntitlementService");
-			
+			entitlementService =
+			                     new EntitlementServiceClient(session,
+			                                                  EntitlementServiceClient.backEndUrl);
+			PepRequestFactory pepRequestFactory =
+			                                      new PepRequestFactoryImpl("ENTITLEMENT_SERVICE",
+			                                                                entitlementService);
+
+			PepRequest request =
+			                     pepRequestFactory.newPepRequest("bob", "read",
+			                                                     "https://localhost:9443/services/EntitlementService");
+
 			PepResponse response = request.decide();
 			System.out.println(response.allowed());
 			Map<String, Obligation> obligations = response.getObligations();
-			for (String entry : obligations.keySet())
-			{
+			for (String entry : obligations.keySet()) {
 				AzEntity<AzCategoryIdObligation> temp = obligations.get(entry).getAzEntity();
-//				for (String entry1 : temp.keySet()){
-//					System.out.println(temp.get(entry1));
-//				}
-				Set<AzAttribute<?>> mixedset = temp.getAzAttributeMixedSet();
 				
+				Set<AzAttribute<?>> mixedset = temp.getAzAttributeMixedSet();
+
 				Iterator<AzAttribute<?>> itr = mixedset.iterator();
-				while(itr.hasNext()){
+				while (itr.hasNext()) {
 					System.out.println(itr.next().getAzAttributeValue());
 				}
-				
-			    
+
 			}
-			
+
 			System.out.println();
-			
-			
+
 			System.out.println();
-			
-			PepRequest request2 = pepRequestFactory.newPepRequest("alice", "read", "https://localhost:9443/services/EntitlementService");
-			
+
+			PepRequest request2 =
+			                      pepRequestFactory.newPepRequest("alice", "read",
+			                                                      "https://localhost:9443/services/EntitlementService");
+
 			PepResponse response2 = request2.decide();
 			System.out.println(response2.allowed());
-			
+
 			EntitlementServiceClient.logout();
 		} catch (AxisFault e) {
 			// TODO Auto-generated catch block
@@ -76,7 +79,7 @@ public class TestClient {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 	}
-	
+
 }
