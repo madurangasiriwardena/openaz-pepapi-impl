@@ -123,8 +123,7 @@ public class EntitlementServiceClient implements AzService {
 		// AzResponseContext azResponseContext = AzRe
 		try {
 			String decision = getDecision(requestStr);
-			// System.out.println(requestStr);
-			System.out.println(decision);
+
 
 			OMElement documentElement = AXIOMUtil.stringToOM(decision);
 			String decisionStr =
@@ -174,11 +173,10 @@ public class EntitlementServiceClient implements AzService {
 					Iterator attrAssignments =
 					                           anObligation.getChildrenWithLocalName("AttributeAssignment");
 					while (attrAssignments.hasNext()) {
-						OMElement attrAssignment=(OMElement) attrAssignments.next();
-						String s =attrAssignment.getText();
-
-						tempObligation.createAzAttribute("ENTITLEMENT_SERVICE",
-						                                 "urn:oasis:names:tc:xacml:3.0:example:attribute:text",
+						OMElement attrAssignment = (OMElement) attrAssignments.next();
+						String s = attrAssignment.getText();
+						String attrID = attrAssignment.getAttributeValue(new QName("AttributeId"));
+						tempObligation.createAzAttribute("ENTITLEMENT_SERVICE", attrID,
 						                                 new EntitlementAttributeValueString(s));
 
 					}
@@ -190,7 +188,6 @@ public class EntitlementServiceClient implements AzService {
 				((EntitlementResultImpl) azResult).setAzObligations(azObligations);
 
 			} catch (NullPointerException ne) {
-				System.out.println("No Obligations Found");
 			}
 
 			OMNode status = documentElement.getFirstElement().getFirstElement().getNextOMSibling();
