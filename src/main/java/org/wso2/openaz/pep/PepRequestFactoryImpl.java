@@ -6,32 +6,30 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openliberty.openaz.azapi.constants.PepResponseType;
-import org.openliberty.openaz.azapi.pep.RequestAttributesFactory;
-import org.openliberty.openaz.azapi.pep.PepRequestFactory;
-import org.openliberty.openaz.azapi.pep.PepRequest;
-import org.openliberty.openaz.azapi.pep.PepResponseFactory;
-import org.openliberty.openaz.azapi.pep.DecisionHandler;
-import org.openliberty.openaz.azapi.pep.PreDecisionHandler;
-import org.openliberty.openaz.azapi.pep.PostDecisionHandler;
-import org.openliberty.openaz.azapi.pep.PepException;
-import org.openliberty.openaz.azapi.constants.AzCategoryId;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdEnvironment;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
-import org.openliberty.openaz.azapi.constants.PepRequestQueryType;
-import org.openliberty.openaz.azapi.constants.PepRequestOperation;
-import org.openliberty.openaz.azapi.constants.PepResponseType;
 import org.openliberty.openaz.azapi.AzAttribute;
 import org.openliberty.openaz.azapi.AzAttributeValue;
 import org.openliberty.openaz.azapi.AzEntity;
 import org.openliberty.openaz.azapi.AzRequestContext;
-import org.openliberty.openaz.azapi.AzResourceActionAssociation;
 import org.openliberty.openaz.azapi.AzResult;
 import org.openliberty.openaz.azapi.AzService;
 import org.openliberty.openaz.azapi.constants.AzCategoryId;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdEnvironment;
 import org.openliberty.openaz.azapi.constants.AzCategoryIdObligation;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
+import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
+import org.openliberty.openaz.azapi.constants.PepRequestOperation;
+import org.openliberty.openaz.azapi.constants.PepRequestQueryType;
+import org.openliberty.openaz.azapi.constants.PepResponseType;
+import org.openliberty.openaz.azapi.pep.DecisionHandler;
+import org.openliberty.openaz.azapi.pep.JavaObjectMapper;
+import org.openliberty.openaz.azapi.pep.PepException;
+import org.openliberty.openaz.azapi.pep.PepRequest;
+import org.openliberty.openaz.azapi.pep.PepRequestFactory;
+import org.openliberty.openaz.azapi.pep.PepResponseFactory;
+import org.openliberty.openaz.azapi.pep.PostDecisionHandler;
+import org.openliberty.openaz.azapi.pep.PreDecisionHandler;
+import org.openliberty.openaz.azapi.pep.RequestAttributesFactory;
 import org.wso2.openaz.pep.entitlement.EntitlementServiceFactory;
 import org.wso2.openaz.pep.entitlement.provider.EntitlementServiceClient;
 
@@ -108,8 +106,6 @@ public class PepRequestFactoryImpl implements PepRequestFactory {
 
 	private String providerClassName;
 	private String containerName;
-	private AzService azService;
-
 	private RequestAttributesFactory<? extends AzCategoryId> actionFactory = new ActionFactory();
 	private RequestAttributesFactory<? extends AzCategoryId> resourceFactory = new ResourceFactory();
 	private RequestAttributesFactory<? extends AzCategoryId> subjectFactory = new SubjectFactory();
@@ -149,7 +145,6 @@ public class PepRequestFactoryImpl implements PepRequestFactory {
 			List<PostDecisionHandler> postDecideHandlers) {
 		this(preDecideHandlers, decideHandler, postDecideHandlers);
 		this.containerName = containerName;
-		this.azService = azService;
 		String name = ENTITLEMENT_PROVIDER_NAME;
 
 		if (log.isTraceEnabled())
@@ -171,7 +166,6 @@ public class PepRequestFactoryImpl implements PepRequestFactory {
 	public PepRequestFactoryImpl(String containerName, AzService azService) {
 		this();
 		this.containerName = containerName;
-		this.azService = azService;
 		String name = ENTITLEMENT_PROVIDER_NAME;
 
 		if (log.isTraceEnabled())
@@ -564,7 +558,6 @@ public class PepRequestFactoryImpl implements PepRequestFactory {
 	}
 
 	public void setAzService(AzService azService) {
-		this.azService = azService;
 	}
 
 	public void setProviderClassName(String providerClassName) {

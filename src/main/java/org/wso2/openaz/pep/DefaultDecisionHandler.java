@@ -1,34 +1,21 @@
 package org.wso2.openaz.pep;
 
 import java.util.Set;
-import java.util.Iterator;
 
-import org.apache.axis2.AxisFault;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openliberty.openaz.azapi.pep.PepRequest;
-import org.openliberty.openaz.azapi.constants.AzCategoryId;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdAction;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdResource;
-import org.openliberty.openaz.azapi.constants.AzCategoryIdSubjectAccess;
-import org.openliberty.openaz.azapi.constants.AzDataTypeId;
-import org.openliberty.openaz.azapi.constants.PepRequestOperation;
-import org.openliberty.openaz.azapi.pep.PepResponse;
-import org.openliberty.openaz.azapi.pep.DecisionHandler;
-import org.openliberty.openaz.azapi.pep.PreDecisionHandler;
-import org.openliberty.openaz.azapi.pep.PostDecisionHandler;
-import org.openliberty.openaz.azapi.AzAttribute;
-import org.openliberty.openaz.azapi.AzEntity;
-import org.openliberty.openaz.azapi.AzRequestContext;
 import org.openliberty.openaz.azapi.AzResourceActionAssociation;
 import org.openliberty.openaz.azapi.AzResponseContext;
 import org.openliberty.openaz.azapi.AzService;
+import org.openliberty.openaz.azapi.constants.PepRequestOperation;
+import org.openliberty.openaz.azapi.pep.DecisionHandler;
+import org.openliberty.openaz.azapi.pep.PepRequest;
+import org.openliberty.openaz.azapi.pep.PepResponse;
+import org.openliberty.openaz.azapi.pep.PostDecisionHandler;
+import org.openliberty.openaz.azapi.pep.PreDecisionHandler;
+import org.wso2.openaz.pep.entitlement.EntitlementServiceFactory;
 // import org.openliberty.openaz.pdp.AzServiceFactory;
 // import org.openliberty.openaz.pdp.provider.AzServiceFactory;
-import org.wso2.openaz.pep.entitlement.EntitlementAttribute;
-import org.wso2.openaz.pep.entitlement.EntitlementRequestContext;
-import org.wso2.openaz.pep.entitlement.EntitlementServiceFactory;
-import org.wso2.openaz.pep.entitlement.provider.EntitlementServiceClient;
 
 /**
  * Provides a default implementation of the decide() method

@@ -30,7 +30,7 @@ public class TestClient {
 		
 		String data[][] = new String[2][3];
 		//just to see how an attribute with ">" or "<" affects the run
-		data[0][0] = "bo>b";
+		data[0][0] = "bob";
 		data[0][1] = "read";
 		data[0][2] = "https://localhost:9443/services/EntitlementService";
 		

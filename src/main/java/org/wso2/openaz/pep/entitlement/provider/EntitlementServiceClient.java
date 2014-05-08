@@ -278,7 +278,6 @@ public class EntitlementServiceClient implements AzService {
 				//The above line replaces all ">" or "<" characters in an attribute.E.g. A user name containing those characters will be properly transmitted to the PDP.
 				request += "</Attribute>";
 				request += "</Attributes>";
-				System.out.println("ES:"+attribute.getAzAttributeValue().toString());
 			}
 		}
 
@@ -302,10 +301,13 @@ public class EntitlementServiceClient implements AzService {
 				                   "\" IncludeInResult=\"false\">";
 				request +=
 				           "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" +
-				                   attribute.getAzAttributeValue() + "</AttributeValue>";
+				                   attribute.getAzAttributeValue().toString().replaceAll("<", "&lt;").replaceAll( ">","&gt;") + "</AttributeValue>";
 				request += "</Attribute>";
 				request += "</Attributes>";
+				System.out.println("ES:"+attribute.getAzAttributeValue().toString());
+
 			}
+
 		}
 
 		Set<AzEntity<? extends AzCategoryId>> setResource =
@@ -319,16 +321,14 @@ public class EntitlementServiceClient implements AzService {
 			while (iterResourceAttributes.hasNext()) {
 				EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute =
 				                                                                                    (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterResourceAttributes.next();
-				// System.out.println(attribute.getAzAttributeValue());
-				// System.out.println(attribute.getAttributeId());
-
+				
 				request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
 				request +=
 				           "<Attribute AttributeId=\"" + attribute.getAttributeId() +
 				                   "\" IncludeInResult=\"false\">";
 				request +=
 				           "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" +
-				                   attribute.getAzAttributeValue() + "</AttributeValue>";
+				                   attribute.getAzAttributeValue().toString().replaceAll("<", "&lt;").replaceAll( ">","&gt;") + "</AttributeValue>";
 				request += "</Attribute>";
 				request += "</Attributes>";
 			}
