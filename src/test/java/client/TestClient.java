@@ -29,7 +29,8 @@ public class TestClient {
 		String backEndUrl = "https://localhost:9443/services/";
 		
 		String data[][] = new String[2][3];
-		data[0][0] = "bob";
+		//just to see how an attribute with ">" or "<" affects the run
+		data[0][0] = "bo>b";
 		data[0][1] = "read";
 		data[0][2] = "https://localhost:9443/services/EntitlementService";
 		
@@ -55,7 +56,7 @@ public class TestClient {
 					System.out.println(data[i][0] + " does not have the " + data[i][1] + " permission.");
 				}
 				
-				Map<String, Obligation> obligations = response.getObligations();
+				Map<String, Obligation> obligations = response.getObligations();				
 				
 				if(!obligations.isEmpty()){
 					System.out.println("Obligations>>");

@@ -57,26 +57,26 @@ public class EntitlementServiceClient implements AzService {
 
 	private EntitlementServiceStub stub;
 	private static final Log log = LogFactory.getLog(EntitlementServiceClient.class);
-	//public static String backEndUrl = "https://localhost:9443/services/";
 	static LoginAdminServiceClient login;
 
 	public EntitlementServiceClient(String cookie, String backendServerURL) throws AxisFault {
 		String serviceURL = backendServerURL + "EntitlementService";
 		stub = new EntitlementServiceStub(serviceURL);
 		ServiceClient client = stub._getServiceClient();
-		Options option = client.getOptions();
-		option.setManageSession(true);
-		option.setProperty(org.apache.axis2.transport.http.HTTPConstants.COOKIE_STRING, cookie);
+		Options options = client.getOptions();
+		options.setManageSession(true);
+		options.setProperty(org.apache.axis2.transport.http.HTTPConstants.COOKIE_STRING, cookie);
 	}
 
 	public String getDecision(String request) throws AxisFault {
 		try {
 			if (request != null) {
-				request = request.trim().replaceAll("&lt;", "<"); // TODO should
-				                                                  // be properly
-				                                                  // fixed
-				request = request.trim().replaceAll("&gt;", ">");
+//				request = request.trim().replaceAll("&lt;", "<"); // TODO should
+//				                                                  // be properly
+//				                                                  // fixed
+//				request = request.trim().replaceAll("&gt;", ">");
 			}
+			System.out.println(request);
 			return stub.getDecision(request);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -274,9 +274,11 @@ public class EntitlementServiceClient implements AzService {
 				                   "\" IncludeInResult=\"false\">";
 				request +=
 				           "<AttributeValue DataType=\"http://www.w3.org/2001/XMLSchema#string\">" +
-				                   attribute.getAzAttributeValue() + "</AttributeValue>";
+				                   attribute.getAzAttributeValue().toString().replaceAll("<", "&lt;").replaceAll( ">","&gt;")+ "</AttributeValue>";
+				//The above line replaces all ">" or "<" characters in an attribute.E.g. A user name containing those characters will be properly transmitted to the PDP.
 				request += "</Attribute>";
 				request += "</Attributes>";
+				System.out.println("ES:"+attribute.getAzAttributeValue().toString());
 			}
 		}
 
@@ -291,8 +293,8 @@ public class EntitlementServiceClient implements AzService {
 			while (iterSubjectAttributes.hasNext()) {
 				EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?> attribute =
 				                                                                                    (EntitlementAttribute<? extends AzCategoryId, ? extends AzDataTypeId, ?>) iterSubjectAttributes.next();
-				// System.out.println(attribute.getAzAttributeValue());
-				// System.out.println(attribute.getAttributeId());
+				 System.out.println(attribute.getAzAttributeValue());
+				 System.out.println(attribute.getAttributeId());
 
 				request += "<Attributes Category=\"" + azEntity.getAzCategoryId() + "\">";
 				request +=
